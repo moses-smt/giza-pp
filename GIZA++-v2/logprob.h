@@ -22,8 +22,6 @@ USA.
 #ifndef _LOGPROB_H
 #define _LOGPROB_H
 
-#pragma interface
-
 // Routines to perform integer exponential arithmetic.
 // A number x is represented as n, where x = b**n
 // It is assumed that b > 1, something like b = 1.001
@@ -61,10 +59,10 @@ public:
   int operator!() const { return logr == zeron; }
   
   // iostream friend specifications
-  friend ostream& operator<<(ostream& os, const LogProb &obj);
-  friend istream& operator>>(istream& is, LogProb &obj);
-  friend ostream& operator<<=(ostream& os, const LogProb &obj);
-  friend istream& operator>>=(istream& is, LogProb &obj);
+  friend std::ostream& operator<<(std::ostream& os, const LogProb &obj);
+  friend std::istream& operator>>(std::istream& is, LogProb &obj);
+  friend std::ostream& operator<<=(std::ostream& os, const LogProb &obj);
+  friend std::istream& operator>>=(std::istream& is, LogProb &obj);
 
   // arithmetic operators 
   LogProb &operator+=(const LogProb &add)   // logr2 = logb ( b**logr2 + b**logr1 )
@@ -190,12 +188,12 @@ public:
 };
 
 // iostream friend operators
-inline ostream &operator<<(ostream& os, const LogProb &obj)
+inline std::ostream &operator<<(std::ostream& os, const LogProb &obj)
 {
   return os << (double) obj;         // output in linear domain, b**logr
 }
 
-inline istream &operator>>(istream& is, LogProb &obj)
+inline std::istream &operator>>(std::istream& is, LogProb &obj)
 {
   double d;
   is >> d;
@@ -203,20 +201,17 @@ inline istream &operator>>(istream& is, LogProb &obj)
   return is;
 }
 
-inline ostream &operator<<=(ostream& os, const LogProb &obj) // write binary
+inline std::ostream &operator<<=(std::ostream& os, const LogProb &obj) // write binary
 {
   os.write((const char *)&obj.logr, sizeof(obj.logr));
   return os;
 }
 
-inline istream &operator>>=(istream& is, LogProb &obj)
+inline std::istream &operator>>=(std::istream& is, LogProb &obj)
 {
   is.read((char *)&obj.logr, sizeof(obj.logr));
   return is;
 }
 
 #endif
-
-
-
 

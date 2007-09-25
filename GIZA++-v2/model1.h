@@ -99,12 +99,12 @@ public:
   void load_table(const char* tname);
   void readVocabFile(const char* fname, Vector<WordEntry>& vlist, int& vsize, 
 		     int& total);
-  inline const Vector<WordEntry>& getEnglishVocabList(void)const {return Elist.getVocabList();};
-  inline const Vector<WordEntry>& getFrenchVocabList(void)const  {return Flist.getVocabList();};
-  inline const double getETotalWCount(void) const {return eTotalWCount;};
-  inline const double getFTotalWCount(void) const {return fTotalWCount;};
-  inline const int getNoEnglishWords(void) const  {return noEnglishWords;};
-  inline const int getNoFrenchWords(void)  const {return noFrenchWords;};
+  inline Vector<WordEntry>& getEnglishVocabList(void)const {return Elist.getVocabList();};
+  inline Vector<WordEntry>& getFrenchVocabList(void)const  {return Flist.getVocabList();};
+  inline double getETotalWCount(void) const {return eTotalWCount;};
+  inline double getFTotalWCount(void) const {return fTotalWCount;};
+  inline int getNoEnglishWords(void) const  {return noEnglishWords;};
+  inline int getNoFrenchWords(void)  const {return noFrenchWords;};
   inline tmodel<COUNT, PROB>& getTTable(void) {return tTable;};
   inline string& getEFFilename(void) {return efFilename;};
  private:

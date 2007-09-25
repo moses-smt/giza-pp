@@ -73,7 +73,7 @@ class WordClasses
       else
 	return 0;
     }
-  const int operator()(const string&x)const
+  int operator()(const string&x)const
     {
       if( Sc2int.count(x) )
 	return Sc2int.find(x)->second;

@@ -38,7 +38,7 @@ class SmartPointer
     {return *p;}
   inline T*operator->() const 
     {return p;}
-  inline operator const bool() const 
+  inline operator bool() const 
     {return p!=0;}
   inline T*ptr() const
     { return p; }
@@ -59,7 +59,7 @@ class SmartPointerConst
     {return *p;}
   inline const T*operator->() const 
     {return p;}
-  inline operator const bool() const
+  inline operator bool() const
     {return p!=0;}
   inline const T*ptr() const
     { return p; }

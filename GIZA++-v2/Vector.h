@@ -210,7 +210,7 @@ template<class T> class Vector
     { return maxWritten; }
   int findMax() const;
   int findMin() const;
-  const void errorAccess(int n) const;
+  void errorAccess(int n) const;
   inline T*getPointerToData(){return p;}
   inline T*begin(){return p;}
   inline T*end(){return p+maxWritten+1;}
@@ -333,7 +333,7 @@ template<class T> bool operator<(const Vector<T> &x, const Vector<T> &y)
 }
 
 
-template<class T> const void Vector<T>:: errorAccess(int n) const
+template<class T> void Vector<T>:: errorAccess(int n) const
 {
   cerr 	<< "ERROR: Access to array element " << n 
 	<< " (" << maxWritten << ", " << realSize << ", " << (void*)p << ")\n";

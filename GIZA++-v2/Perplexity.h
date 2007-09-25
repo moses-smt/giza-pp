@@ -75,25 +75,25 @@ class Perplexity {
       sum = 0 ;
       wc = 0 ;
     }
-    const size_t size()const{return(min(perp.size(), ce.size()));}
+    size_t size() const {return(min(perp.size(), ce.size()));}
     inline void addFactor(const double p, const double count, const int l, 
 			  const int m,bool withPoisson) {
       wc += count * m ; // number of french words 
       sum += count * ( (withPoisson?((*E_M_L)(l, m)):0.0) + p) ;
     }
-    inline double perplexity() {
+    inline double perplexity() const {
 	return exp( -1*sum / wc);
     }
 
-    inline double cross_entropy() {
+    inline double cross_entropy() const {
       return (-1.0*sum / (log(double(CROSS_ENTROPY_BASE)) * wc)); 
     }
 
-    inline double word_count() {
+    inline double word_count() const {
 	return wc;
     }
     
-    inline double getSum(){
+    inline double getSum() const {
       return sum ;
     }
 

@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 USA.
 
 */
-#pragma implementation
 
 //  Routines to perform integer exponential arithmetic.
 //  A number x is represented as n, where x = b**n.
@@ -63,7 +62,7 @@ const LogProb LogProb::minus16(1e-16);
 int LogProb::Initialize()
 {
   int nbytes = sizeof(double)*(nmax-nmin+1) + sizeof(int)*(0-tblbnd+1);
-  cerr << nbytes << " bytes used for LogProb tables (C++ version)\n";
+  std::cerr << nbytes << " bytes used for LogProb tables (C++ version)\n";
   ntof   = new double[nmax-nmin+1];
   addtbl = new int[-tblbnd+1];
   subtbl = new int[-tblbnd+1];
@@ -75,7 +74,7 @@ int LogProb::Initialize()
   //  if (!ifs)
   //    {
   int i;
-  cerr << "Building integer logs conversion tables\n";
+  std::cerr << "Building integer logs conversion tables\n";
   ntof[0] = 0 ;
   
   for (i=nmin+1; i<=nmax; ++i) 
@@ -140,7 +139,7 @@ LogProb& LogProb::operator-=(const LogProb &subs)
     {
       if (a < 0)
 	{
-	  cerr << "WARNING(logprob): Invalid arguments to nsub" <<(*this)<< " " << subs << endl;
+	  std::cerr << "WARNING(logprob): Invalid arguments to nsub" <<(*this)<< " " << subs << std::endl;
 	  //abort();
 	}
       logr = zeron;
@@ -151,11 +150,5 @@ LogProb& LogProb::operator-=(const LogProb &subs)
   logr = subs.logr + subtbl[a];
   return *this;
 }
-
-
-
-
-
-
 
 

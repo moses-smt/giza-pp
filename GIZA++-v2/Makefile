@@ -136,3 +136,6 @@ plain2snt.out: plain2snt.cpp
 snt2cooc.out: snt2cooc.cpp
 	$(CXX) -O3 -g -W -Wall -Wno-deprecated snt2cooc.cpp -o snt2cooc.out
 
+small_snt2cooc.out: small_snt2cooc.cpp
+	$(CXX) -O3 -g small_snt2cooc.cpp -o small_snt2cooc.out
+

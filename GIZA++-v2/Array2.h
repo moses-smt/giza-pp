@@ -61,15 +61,11 @@ public:
     { return h2; }
 
 inline T*begin(){ 
-#ifdef __STL_DEBUG
   if( h1==0||h2==0)return 0;
-#endif
   return &(p[0]); 
 }
 inline T*end(){ 
-#ifdef __STL_DEBUG
   if( h1==0||h2==0)return 0;
-#endif
   return &(p[0])+p.size(); 
 }
 

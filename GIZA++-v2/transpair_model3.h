@@ -34,7 +34,7 @@ Franz Josef Och (30/07/99)
 #include "ATables.h"
 #include "TTables.h"
 #include "alignment.h"
-#include <math.h>
+#include <cmath>
 #include "transpair_model2.h"
 
 extern double factorial(int n);

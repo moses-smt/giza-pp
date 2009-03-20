@@ -23,8 +23,8 @@ USA.
 #ifndef HEADER_Pointer_DEFINED
 #define HEADER_Pointer_DEFINED
 
-#include <assert.h>
-#include <stream.h>
+#include <cassert>
+#include <ostream>
 
 template<class T>
 class SmartPointer

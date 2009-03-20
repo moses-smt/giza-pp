@@ -31,7 +31,7 @@ USA.
 #include "ATables.h"
 #include "TTables.h"
 #include "alignment.h"
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include "Array2.h"
 #include "mystl.h"

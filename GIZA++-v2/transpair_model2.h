@@ -29,7 +29,7 @@ USA.
 #include "ATables.h"
 #include "TTables.h"
 #include "alignment.h"
-#include <math.h>
+#include <cmath>
 #include "transpair_model1.h"
 
 

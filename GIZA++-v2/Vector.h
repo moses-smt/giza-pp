@@ -31,7 +31,7 @@ Franz Josef Och (30/07/99)
 #include <string>
 #include <utility>
 #include <functional>
-#include <assert.h>
+#include <cassert>
 
 
 #ifdef NDEBUG

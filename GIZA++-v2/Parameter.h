@@ -29,6 +29,7 @@ USA.
 #include <string>
 #include "Globals.h"
 #include <fstream>
+#include <cstring>
 
 inline unsigned int mConvert(const string&s,unsigned int &i)
 { 

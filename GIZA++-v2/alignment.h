@@ -26,7 +26,7 @@ Franz Josef Och (30/07/99)
 #ifndef alignment_h_fjo_defined
 #define alignment_h_fjo_defined
 #include "Vector.h"
-#include <assert.h>
+#include <cassert>
 #include "defs.h"
 #include "myassert.h"
 

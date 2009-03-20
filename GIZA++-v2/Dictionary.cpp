@@ -30,6 +30,8 @@ USA.
 
 #include "Dictionary.h"
 
+#include <cstring>
+
 Dictionary::Dictionary(const char *filename){
   if(!strcmp(filename, "")){
     dead = true;

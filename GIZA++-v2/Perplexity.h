@@ -34,8 +34,8 @@ USA.
 #ifndef _PERPLEXITY_H
 #define _PERPLEXITY_H
 
-#include <math.h>
-#include <fstream.h>
+#include <cmath>
+#include <fstream>
 #include "Vector.h"
 #include "defs.h"
 #include "Array2.h"

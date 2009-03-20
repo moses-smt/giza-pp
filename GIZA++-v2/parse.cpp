@@ -24,7 +24,7 @@ USA.
 
 #include <strstream>
 #include <string>
-#include <fstream.h>
+#include <fstream>
 #include "defs.h"
 #include "utility.h"
 #include "Globals.h"

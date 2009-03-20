@@ -22,7 +22,7 @@ USA.
 #ifndef _model1_h
 #define _model1_h 1
 
-#include <assert.h>
+#include <cassert>
  
 #include <iostream>
 #include <strstream>
@@ -38,10 +38,10 @@ using __gnu_cxx::hash_map;
 #else
 #include <hash_map>
 #endif
-#include <time.h>
-#include <fstream.h>
-#include <math.h>
-#include <stdio.h>
+#include <ctime>
+#include <fstream>
+#include <cmath>
+#include <cstdio>
 
 #include "Vector.h"
 #include "vocab.h"

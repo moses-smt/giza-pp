@@ -21,7 +21,7 @@ USA.
 */
 #ifndef _model3_h
 #define _model3_h 1
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 #include <algorithm>
 #include <functional>
@@ -37,9 +37,9 @@ using __gnu_cxx::hash_map;
 #endif
 
 
-#include <time.h>
+#include <ctime>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include "MoveSwapMatrix.h"
 #include "TTables.h"
 #include "ATables.h"
@@ -126,7 +126,7 @@ private:
   LogProb viterbi_model2(const transpair_modelhmm&ef, alignment&output, int pair_no,int i_peg = -1 , int j_peg = -1 )const;
 
  private:
-  void estimate_t_a_d(sentenceHandler& sHandler1, Perplexity& perp, Perplexity& perp,bool simple, bool dump_files,bool updateT);
+  void estimate_t_a_d(sentenceHandler& sHandler1, Perplexity& perp1, Perplexity& perp2,bool simple, bool dump_files,bool updateT);
   void viterbi_loop(Perplexity&, Perplexity&, sentenceHandler&, bool, const char*,bool,string model);
 
   template<class MODEL_TYPE, class A,class B>

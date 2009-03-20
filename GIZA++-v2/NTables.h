@@ -23,7 +23,7 @@ USA.
 #define _ntables_h 1
 #include "Array2.h"
 #include "Vector.h"
-#include <assert.h>
+#include <cassert>
 #include "defs.h"
 #include "vocab.h"
 #include "myassert.h"

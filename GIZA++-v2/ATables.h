@@ -47,7 +47,7 @@ using __gnu_cxx::hash_map;
 #else
 #include <hash_map>
 #endif
-#include <fstream.h>
+#include <fstream>
 #include "Array4.h"
 #include "myassert.h"
 #include "Globals.h"

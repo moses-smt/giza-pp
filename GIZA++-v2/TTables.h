@@ -36,7 +36,7 @@ USA.
 #include "defs.h"
 #include "vocab.h"  
 
-#include <assert.h>
+#include <cassert>
  
 #include <iostream>
 #include <algorithm>
@@ -53,7 +53,7 @@ using __gnu_cxx::hash_map;
 #include <hash_map>
 #endif
 
-#include <fstream.h>
+#include <fstream>
 
 #include "Globals.h"
 

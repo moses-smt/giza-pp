@@ -194,7 +194,7 @@ class d5model
 	{
 	  if(l.length()&&l[0]=='#')
 	    continue;
-	  istrstream is(l.c_str());
+	  istringstream is(l.c_str());
 	  string E,F;
 	  int v1,v2,ii;
 	  double prob,count;

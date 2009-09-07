@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <strstream>
+#include <sstream>
 #include <fstream>
 #include <map>
 #include <vector>
@@ -15,7 +15,7 @@ void readVoc(istream&in,map<string,string>&voc)
   if( !in )cerr <<"Vocabulary does not exist.\n";
   while(getline(in,line))
     {
-      istrstream eingabe(line.c_str()); 
+      istringstream eingabe(line); 
       if( !(eingabe>>s1>>s2))
 	cerr << "ERROR in vocabulary '" << line << "'\n";
       voc[s1]=s2;
@@ -51,7 +51,7 @@ int main(int argc,char **argv)
   int printed=0;
   while(getline(t,line1)&&getline(t,line2)&&getline(t,line3))
     {
-      istrstream eingabe1(line1.c_str()),eingabe2(line2.c_str()),eingabe3(line3.c_str());
+      istringstream eingabe1(line1),eingabe2(line2),eingabe3(line3);
       double count;
       string word;
       eingabe1>>count;

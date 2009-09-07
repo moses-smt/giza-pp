@@ -20,7 +20,7 @@ USA.
 
 */
 
-#include <strstream>
+#include <sstream>
 #include "getSentence.h"
 #include "TTables.h"
 #include "model1.h"

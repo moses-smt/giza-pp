@@ -120,7 +120,7 @@ class compareb1
 inline void tokenize(const string&in,Vector<string>&out)
 {
   string s;
-  istrstream l(in.c_str());
+  istringstream l(in);
   while(l>>s)
     out.push_back(s);
 }
@@ -385,7 +385,7 @@ class d4model
 	      int value;
 	      double count;
 	      getline(file,line);
-	      istrstream twonumbers(line.c_str());
+	      istringstream twonumbers(line);
 	      if(twonumbers >> value >> count)
 		{
 		  if( D1.count(k)==0 )
@@ -444,7 +444,7 @@ class d4model
 	      int value;
 	      double count;
 	      getline(file,line);
-	      istrstream twonumbers(line.c_str());
+	      istringstream twonumbers(line);
 	      if(twonumbers >> value >> count)
 		{
 		  if( Db1.count(k)==0 )

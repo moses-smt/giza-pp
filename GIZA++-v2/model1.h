@@ -25,7 +25,7 @@ USA.
 #include <cassert>
  
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <algorithm>
 #include <functional>
 #include <map>

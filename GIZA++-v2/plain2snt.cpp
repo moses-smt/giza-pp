@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <strstream>
+#include <sstream>
 #include <fstream>
 #include <map>
 #include <vector>
@@ -64,7 +64,7 @@ int main(int argc,char**argv)
       while(getline(i1,line1) && getline(i2,line2) )
 	{
 	  vector<string> t1,t2;
-	  istrstream ii1(line1.c_str());
+	  istringstream ii1(line1);
 	  while(ii1>>word)
 	    {
 	      t1.push_back(word);
@@ -75,7 +75,7 @@ int main(int argc,char**argv)
 		  id1[word]=iid1.size()-1;
 		}
 	    }
-	  istrstream ii2(line2.c_str());
+	  istringstream ii2(line2);
 	  while(ii2>>word)
 	    {
 	      t2.push_back(word);

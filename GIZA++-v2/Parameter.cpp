@@ -23,7 +23,7 @@ USA.
 #include "Parameter.h"
 #include <fstream>
 #include <unistd.h>
-#include <strstream>
+#include <sstream>
 
 
 bool absolutePathNames=0;
@@ -37,7 +37,7 @@ bool writeParameters(ofstream&of,const ParSet&parset,int level)
     {
       if(((*i)->getLevel()==level||level==-1)&&(*i)->onlyCopy==0)
 	{
-	  ostrstream os;
+	  ostringstream os;
 	  (*i)->printValue(os);
 	  os << ends;
 	  string s(os.str());
@@ -63,7 +63,7 @@ bool readParameters(ifstream&f,const ParSet&parset,int verb,int level)
   if(!f)return 0;
   while(getline(f,s))
     {
-      istrstream eingabe(s.c_str());
+      istringstream eingabe(s);
       string s1,s2;
       eingabe>>s1>>s2;
       if(makeSetCommand(s1,s2,parset,verb,level)==0)

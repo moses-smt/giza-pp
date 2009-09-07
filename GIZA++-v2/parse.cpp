@@ -22,7 +22,7 @@ USA.
 
 /* FJO 01/2001: completely reorganized parameter processing */
 
-#include <strstream>
+#include <sstream>
 #include <string>
 #include <fstream>
 #include "defs.h"
@@ -71,7 +71,7 @@ void parseConfigFile (char * fname )
   
   while(getline(Config_File, line)){
 
-    istrstream buffer(line.c_str());
+    istringstream buffer(line);
     word = attrib = attribval = "" ;
     buffer >> word  ;
     if (word != "//"){ // if line does not start with "//" (i.e. not a comment)
@@ -81,7 +81,7 @@ void parseConfigFile (char * fname )
       }      
       if(!(buffer >> attribval))
 	{
-	  istrstream buffer2(line.c_str());
+	  istringstream buffer2(line);
 	  buffer2>>attrib;
 	  buffer2>>attribval;
 	}

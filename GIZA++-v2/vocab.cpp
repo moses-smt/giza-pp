@@ -44,7 +44,7 @@ void vcbList::readVocabList()
   s2i[entry.word]=list.size()-1;
 
   while(getline(vFile, line)){
-    istrstream buffer(line.c_str());
+    istringstream buffer(line);
     if(!(buffer >> word_id >> word >> freq))
       cerr << "ERROR: reading vocabulary; " << word_id << ' ' << word << ' ' << freq << endl;
     if (word_id == 0){

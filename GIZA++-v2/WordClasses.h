@@ -48,7 +48,8 @@ class WordClasses
       while(getline(in,sline))
 	{
 	  string word,wclass;
-	  istrstream iline(sline.c_str());
+	  //istringstream iline(sline.c_str());
+	  istringstream iline(sline);
 	  iline>>word>>wclass;
 	  maxword=max(m(word),maxword);
 	  assert(Sw2c.count(word)==0);

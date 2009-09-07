@@ -32,7 +32,7 @@ USA.
 
 #include "getSentence.h"
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include "Parameter.h"
 #include "errno.h"
 
@@ -201,7 +201,7 @@ bool sentenceHandler::readNextSentence(sentPair& sent)
   
   sent.clear();
   if (getline(*inputFile, line)){
-    istrstream buffer(line.c_str());
+    istringstream buffer(line);
     buffer >> sent.noOcc;
     if( sent.noOcc<0 )
       {
@@ -226,7 +226,7 @@ bool sentenceHandler::readNextSentence(sentPair& sent)
     fail = true ;;
   }
   if (getline(*inputFile, line)){
-    istrstream buffer(line.c_str());
+    istringstream buffer(line);
     WordIndex w;  // w is a local variabe for token id
     sent.eSent.push_back(0); // each source word is assumed to have 0 == 
     // a null word (id 0) at the begining of the sentence. 
@@ -246,7 +246,7 @@ bool sentenceHandler::readNextSentence(sentPair& sent)
     fail = true ;
   }
   if (getline(*inputFile, line)){
-    istrstream buffer(line.c_str());
+    istringstream buffer(line);
     WordIndex w;  // w is a local variabe for token id
     sent.fSent.push_back(0); //0 is inserted for program uniformity
     while(buffer>>w){ // read target sentece , word by word .

@@ -26,7 +26,7 @@ USA.
 #include "Vector.h" 
 
 #include <fstream>
-#include <strstream>
+#include <sstream>
 #include <map>
 
 class WordEntry {
@@ -100,4 +100,5 @@ class vcbList{
   }
   
 };
+
 #endif 

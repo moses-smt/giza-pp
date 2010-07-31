@@ -180,7 +180,7 @@ template<class T> class Array
     {a=autoExp;}
   int findMax() const;
   int findMin() const;
-  const void errorAccess(int n) const;
+  void errorAccess(int n) const;
   inline T*getPointerToData(){return p;}
   
   inline T& operator[](int n)
@@ -283,7 +283,7 @@ template<class T> bool operator<(const Array<T> &x, const Array<T> &y)
 }
 
 
-template<class T> const void Array<T>:: errorAccess(int n) const
+template<class T> void Array<T>:: errorAccess(int n) const
 {
   cerr 	<< "ERROR: Access to array element " << n 
 	<< " (" << maxWritten << "," << realSize << "," << (void*)p << " " << a << ")\n";

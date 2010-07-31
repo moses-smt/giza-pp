@@ -56,11 +56,12 @@ void writeClasses(Array<Kategory> &katOfWord,KategProblem &problem,ostream &to)
 {	    
   for(int i=0;i<katOfWord.size();i++)
     {
-      if( strcmp(problem.getString(i),"$") )
+      if( strcmp(problem.getString(i),"$") ) {
 	if( strcmp(problem.getString(i),"mkcls-mapped-dollar-symbol-$")==0 )
 	  to << "$" << "\t" << katOfWord[i] << endl;
 	else
 	  to << problem.getString(i) << "\t" << katOfWord[i] << endl;
+      }
     }
 }
 

@@ -143,7 +143,7 @@ template<class T> class FixedArray
     {return 0;}
   inline int high() const 
     {return realSize-1;}
-  const void errorAccess(int n) const;
+  void errorAccess(int n) const;
   
   inline T& operator[](int n)
     { 
@@ -245,7 +245,7 @@ template<class T> int Hash(const FixedArray<T>&a)
   return n;
 }
 
-template<class T> const void FixedArray<T>:: errorAccess(int n) const
+template<class T> void FixedArray<T>:: errorAccess(int n) const
 {
   massert(0);
   cerr 	<< "ERROR: Access to array element " << n 

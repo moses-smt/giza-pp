@@ -395,9 +395,9 @@ int KategProblem::expectedNumberOfIterations()
 void KategProblem::makeTitle(char x[512])
   
 {
-  char *ww;
-  char *kw;
-  char *in;
+  const char *ww;
+  const char *kw;
+  const char *in;
   switch(wortwahl())
     {
     case W_RAN:

@@ -46,13 +46,6 @@ USA.
 #include "Vector.h"
 #include <utility>
 
-#if __GNUC__>2
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-#else
-#include <hash_map>
-#endif
-
 #include <fstream>
 
 #include "Globals.h"
@@ -394,7 +387,7 @@ public:
 
   inline const hash_map<wordPairIds, CPPair, hashpair, equal_to<wordPairIds> >& getHash(void) const {return ef;};
   /* get a refernece to the hash table */
-  inline void resize(WordIndex n) {ef.resize(n);};
+  //inline void resize(WordIndex n) {ef.resize(n);};
   // to resize he hash table 
 
   void printProbTable(const char* filename, const Vector<WordEntry>&, const Vector<WordEntry>&,bool actual) const;

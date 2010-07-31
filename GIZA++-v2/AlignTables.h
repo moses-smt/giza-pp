@@ -35,12 +35,6 @@ USA.
 //#include <vector>
 #include "Vector.h"
 #include <utility>
-#if __GNUC__>2
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-#else
-#include <hash_map>
-#endif
 #include <math.h>
 #include <fstream>
 #include "transpair_model1.h"
@@ -116,7 +110,7 @@ public:
   LogProb getValue(Vector<WordIndex>&)const; // retrieve prob. of alignment
   inline void clear(void){ a.clear();}; // clear hash table 
   //  void printTable(const char* filename);
-  inline void resize(WordIndex n) {a.resize(n);}; // resize table
+  //inline void resize(WordIndex n) {a.resize(n);}; // resize table
 
 };
 

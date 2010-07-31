@@ -24,12 +24,6 @@ USA.
 #define HMM_TABLES_H_ASDF_DEFINED
 #include "FlexArray.h"
 
-#if __GNUC__>2
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-#else
-#include <hash_map>
-#endif
 #include "Array.h"
 #include <map>
 #include "mymath.h"

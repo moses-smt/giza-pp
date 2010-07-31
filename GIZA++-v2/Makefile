@@ -4,8 +4,8 @@ INSTALLDIR ?= /usr/local/bin/
 
 #CXX = g++
 
-CFLAGS = $(CFLAGS_GLOBAL) -Wall
-CFLAGS_OPT = $(CFLAGS) -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -DBINARY_SEARCH_FOR_TTABLE -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -ffast-math
+CFLAGS = $(CFLAGS_GLOBAL) -Wall -Wno-parentheses
+CFLAGS_OPT = $(CFLAGS) -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -ffast-math
 #CFLAGS_OPT = $(CFLAGS) -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -DBINARY_SEARCH_FOR_TTABLE -O3 -static -DNDEBUG -DWORDINDEX_WITH_4_BYTE
 CFLAGS_PRF = $(CFLAGS) -O2 -pg -DNDEBUG -DWORDINDEX_WITH_4_BYTE
 CFLAGS_DBG = $(CFLAGS) -g -DDEBUG -DWORDINDEX_WITH_4_BYTE
@@ -134,11 +134,11 @@ dependencies:
 -include dependencies
 
 snt2plain.out: snt2plain.cpp
-	$(CXX) $(LDFLAGS) -O3 -Wno-deprecated -W -Wall snt2plain.cpp -o snt2plain.out
+	$(CXX) $(LDFLAGS) -O3 -W -Wall snt2plain.cpp -o snt2plain.out
 
 plain2snt.out: plain2snt.cpp
-	$(CXX) $(LDFLAGS) -O3 -Wno-deprecated -W -Wall plain2snt.cpp -o plain2snt.out
+	$(CXX) $(LDFLAGS) -O3 -W -Wall plain2snt.cpp -o plain2snt.out
 
 snt2cooc.out: snt2cooc.cpp
-	$(CXX) $(LDFLAGS) -O3 -g -W -Wall -Wno-deprecated snt2cooc.cpp -o snt2cooc.out
+	$(CXX) $(LDFLAGS) -O3 -g -W -Wall snt2cooc.cpp -o snt2cooc.out
 

@@ -32,12 +32,6 @@ USA.
 #include <set>
 #include <utility>
 
-#if __GNUC__>2
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-#else
-#include <hash_map>
-#endif
 #include <ctime>
 #include <fstream>
 #include <cmath>

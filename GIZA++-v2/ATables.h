@@ -41,12 +41,6 @@ USA.
 #include <set>
 #include "Vector.h"
 #include <utility>
-#if __GNUC__>2
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-#else
-#include <hash_map>
-#endif
 #include <fstream>
 #include "Array4.h"
 #include "myassert.h"

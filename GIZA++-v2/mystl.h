@@ -18,12 +18,19 @@ using namespace _STL;
 #include "myassert.h"
 #include <string>
 #include <utility>
-#if __GNUC__>2
+
+#if __GNUC__==2
+#include <hash_map>
+#elsif __GNUC__==3
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
 #else
-#include <hash_map>
+#include <tr1/unordered_map>
+#define hash_map unordered_map
+using namespace std::tr1;
 #endif
+
+#include <vector>
 #include <iostream>
 #include "mymath.h"
 #include "Array2.h"

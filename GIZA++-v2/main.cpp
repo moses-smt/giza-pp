@@ -83,7 +83,7 @@ GLOBAL_PARAMETER(WordIndex,MAX_FERTILITY,"MAX_FERTILITY","maximal fertility for 
 Vector<map< pair<int,int>,char > > ReferenceAlignment;
 
 
-bool useDict = false  ;
+bool useDict = false;
 string CoocurrenceFile;
 string Prefix, LogFilename, OPath, Usage, 
   SourceVocabFilename, TargetVocabFilename, CorpusFilename, 
@@ -520,6 +520,7 @@ double StartTraining(int&result)
   cout << "= " << LAMBDA << '\n';
   // load dictionary
   Dictionary *dictionary;  
+  useDict = !dictionary_Filename.empty();
   if (useDict) dictionary = new Dictionary(dictionary_Filename.c_str());
   else dictionary = new Dictionary("");
   int minIter=0;

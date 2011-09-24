@@ -37,7 +37,7 @@ char *Get_File_Spec (){
   struct tm *local;
   time_t t;
   char *user;
-  char time_stmp[17];
+  char time_stmp[19];
   char *file_spec = 0;
   
   t = time(NULL);

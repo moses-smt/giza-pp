@@ -252,6 +252,7 @@ template<class T> class Vector
       (*this)[maxWritten]=x;
       return top();
     }
+    /*
   bool writeTo(ostream&out) const
     {
       out << "Vector ";
@@ -264,6 +265,8 @@ template<class T> class Vector
 	}
       return 1;
     }
+    */
+    
   bool readFrom(istream&in)
     {
       string s;

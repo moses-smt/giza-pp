@@ -6,7 +6,7 @@ INSTALLDIR ?= /usr/local/bin/
 
 CFLAGS = $(CFLAGS_GLOBAL) -Wall -Wno-parentheses
 #CFLAGS_OPT = $(CFLAGS) -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -ffast-math
-CFLAGS_OPT = $(CFLAGS) -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE -DBINARY_SEARCH_FOR_TTABLE -O3 -DNDEBUG -DWORDINDEX_WITH_4_BYTE
+CFLAGS_OPT = $(CFLAGS) -O3 -funroll-loops -DNDEBUG -DWORDINDEX_WITH_4_BYTE -DBINARY_SEARCH_FOR_TTABLE -DWORDINDEX_WITH_4_BYTE
 CFLAGS_PRF = $(CFLAGS) -O2 -pg -DNDEBUG -DWORDINDEX_WITH_4_BYTE
 CFLAGS_DBG = $(CFLAGS) -g -DDEBUG -DWORDINDEX_WITH_4_BYTE
 CFLAGS_NRM = $(CFLAGS) -DWORDINDEX_WITH_4_BYTE
@@ -121,15 +121,15 @@ depend_CLEAN:
 
 dependencies:
 	@(echo "#Automatically generated dependecy list" >>  dependencies ;\
-	$(CXX) -Wno-deprecated -MM *.cpp $(CFLAGS_OPT) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_OPT)\1?g;print;}'>>  dependencies)
+	$(CXX) -MM *.cpp $(CFLAGS_OPT) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_OPT)\1?g;print;}'>>  dependencies)
 	@(echo "#Automatically generated dependecy list" >>  dependencies ;\
-	$(CXX) -Wno-deprecated -MM *.cpp $(CFLAGS_DBG) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_DBG)\1?g;print;}'>>  dependencies)
+	$(CXX) -MM *.cpp $(CFLAGS_DBG) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_DBG)\1?g;print;}'>>  dependencies)
 	@(echo "#Automatically generated dependecy list" >>  dependencies ;\
-	$(CXX) -Wno-deprecated -MM *.cpp $(CFLAGS_VDBG) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_VDBG)\1?g;print;}'>>  dependencies)
+	$(CXX) -MM *.cpp $(CFLAGS_VDBG) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_VDBG)\1?g;print;}'>>  dependencies)
 	@(echo "#Automatically generated dependecy list" >>  dependencies ;\
-	$(CXX) -Wno-deprecated -MM *.cpp $(CFLAGS_NRM) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_NRM)\1?g;print;}'>>  dependencies)
+	$(CXX) -MM *.cpp $(CFLAGS_NRM) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_NRM)\1?g;print;}'>>  dependencies)
 	@(echo "#Automatically generated dependecy list" >>  dependencies ;\
-	$(CXX) -Wno-deprecated -MM *.cpp $(CFLAGS_PRF) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_PRF)\1?g;print;}'>>  dependencies)
+	$(CXX) -MM *.cpp $(CFLAGS_PRF) | perl -e 'while(<>){s?^([^\:]+\.o:)?$(OBJ_DIR_PRF)\1?g;print;}'>>  dependencies)
 
 -include dependencies
 

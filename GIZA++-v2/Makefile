@@ -13,11 +13,7 @@ CFLAGS_NRM = $(CFLAGS) -DWORDINDEX_WITH_4_BYTE
 CFLAGS_VDBG = $(CFLAGS) -g -DDEBUG -DWORDINDEX_WITH_4_BYTE -DVDEBUG
 SRC = *.cpp
 TYPE = 
-ifeq ($(shell uname),Darwin)
-	LDFLAGS =
-else
-	LDFLAGS = -static
-endif
+LDFLAGS =
 
 include Makefile.src
 

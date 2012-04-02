@@ -35,7 +35,7 @@ USA.
 #include <fstream>
 
 
-enum {TA_OPT, HC_OPT, SA_OPT,RRT_OPT,GDA_OPT,MAX_OPT_NR,MY_OPT };
+enum {TA_OPT, HC_OPT, SA_OPT,RRT_OPT,GDA_OPT,MY_OPT,MAX_OPT_NR };
 
 class IterOptimization;
 

@@ -200,14 +200,13 @@ double solveProblem(int verbose,Problem &problem,int versuche,
 void multiSolveProblem(Problem &problem,int versuche,int maxSeconds)
 {
 	int i;
-  int maxLaeufe;
   double rDummy;
   StatVar end[MAX_OPT_NR],auswertungen[MAX_OPT_NR],start[MAX_OPT_NR];
   double maxClock=clockSec()+maxSeconds;
   if(maxSeconds<=0)maxClock=0;
   solveProblem(ProblemTestVerboseMode,problem,versuche,-1,HC_OPT,rDummy,
 	       end[HC_OPT],auswertungen[HC_OPT],start[HC_OPT],maxClock);
-  maxLaeufe=(int)(auswertungen[HC_OPT].getMean()*5);
+  //int maxLaeufe=(int)(auswertungen[HC_OPT].getMean()*5);
   for(i=0;i<MAX_OPT_NR;i++)
     {
       if( i==HC_OPT )

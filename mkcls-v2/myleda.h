@@ -25,15 +25,12 @@ USA.
 
 #ifndef myleda_HEADER_defined
 #define myleda_HEADER_defined
-using namespace std;
+#include <map>
+#include <set>
+#include <tr1/unordered_map>
 #include "myassert.h"
-
-
-#if defined(USE_LEDA_array)||defined(USE_LEDA)
-#include <LEDA/array.h>
-#else
-
 #include "FixedArray.h"
+using namespace std;
 
 template<class T>
 class leda_array : public FixedArray<T>
@@ -42,14 +39,7 @@ public:
   leda_array() {}
   leda_array(int n) : FixedArray<T>(n) {}
 };
-#endif
 
-
-#if defined(USE_LEDA_set)||defined(USE_LEDA)
-#include <LEDA/set.h>
-#define forall_set(a,b,c) forall(b,c)
-#else
-#include <set>
 template<class T>
 class leda_set : public set<T>
 {
@@ -77,15 +67,6 @@ leda_set<T> operator-(const leda_set<T>&a,const leda_set<T>&b)
   return c;
 }
 
-#endif
-
-
-#if defined(USE_LEDA_d_array)||defined(USE_LEDA)
-#include <LEDA/d_array.h>
-#define forall_defined_d(a,b,c,d) forall_defined(c,d)
-#define forall_d(a,b,c,d) forall(c,d)
-#else
-#include <map>
 template<class A,class B>
 class leda_d_array : public map<A,B>
 {
@@ -118,22 +99,8 @@ public:
 
 #define forall_defined_d(a,b,c,d) for(typename leda_d_array<a,b>::const_iterator __ii__=(d).begin();__ii__!=(d).end()&&((c=__ii__->first),1) ;++__ii__)
 #define forall_d(a,b,c,d)         for(typename leda_d_array<a,b>::const_iterator __ii__=(d).begin();__ii__!=(d).end()&&((c=__ii__->second),1);++__ii__)
-#endif
-
-
-#if defined(USE_LEDA_h_array)||defined(USE_LEDA)
-#include <LEDA/h_array.h>
-#define forall_defined_h(a,b,c,d) forall_defined(c,d)
-#define forall_h(a,b,c,d) forall(c,d)
-#else
 
 double used_time();
-#if 0
-
-#include "my_hashmap.h"
-#define leda_h_array my_hashmap
-
-#else
 
 template<class T>
 class my_hash
@@ -143,15 +110,8 @@ public:
 };
 
 inline int Hash(int value) { return value; }
-#define MY_HASH_BASE hash_map<A,B,my_hash<A> >
+#define MY_HASH_BASE std::tr1::unordered_map<A,B>
 
-#if __GNUC__>2 
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-using __gnu_cxx::hash;
-#else
-#include <hash_map>
-#endif
 template<class A,class B>
 class leda_h_array : public MY_HASH_BASE
 {
@@ -177,7 +137,7 @@ public:
       typename MY_HASH_BASE::iterator pos=this->find(a);
       if( pos==this->end() )
 	{
-	  insert(typename MY_HASH_BASE::value_type(a,init));
+	  this->insert(typename MY_HASH_BASE::value_type(a,init));
 	  pos=this->find(a);
 	  iassert(pos!=this->end());
 	}
@@ -188,11 +148,6 @@ public:
 #define forall_defined_h(a,b,c,d) for(typename leda_h_array<a,b>::const_iterator __jj__=(d).begin();__jj__!=(d).end()&&((c=__jj__->first),1); ++__jj__)
 #define forall_defined_h2(a,b,c,d) for(leda_h_array<a,b>::const_iterator __jj__=(d).begin();__jj__!=(d).end()&&((c=__jj__->first),1); ++__jj__)
 #define forall_h(a,b,c,d)         for(typename leda_h_array<a,b>::const_iterator __jjj__=(d).begin();__jjj__!=(d).end()&&((c=__jjj__->second),1);++__jjj__)
-
-#endif
-
-#endif
-
 
 
 template<class T> int compare(const T&a,const T&b)
@@ -271,7 +226,6 @@ bool operator==(const leda_d_array<A,B>&p1,const leda_d_array<A,B>&p2)
     if( !( p1[v]==p2[v]) ) return 0;
   return 1; 
 }
-
 
 
 

@@ -35,7 +35,7 @@ USA.
 #include <stdlib.h>
 #include <stdio.h>
 #include <string>
-#include <strstream>
+#include <sstream>
 
 typedef pair<string,string> PSS;
 
@@ -304,7 +304,7 @@ KategProblem *fromKModel(const char *str,int maxClass,int initialisierung,
 	}
       if(!f)break;
       
-      istrstream f2(line.c_str());
+      istringstream f2(line);
       while( 1 )
 	{
 	  f2 >> text;
@@ -314,12 +314,6 @@ KategProblem *fromKModel(const char *str,int maxClass,int initialisierung,
 	      f2.clear(ios::failbit);
 	    }
 	  if(!f2){break;}
-	  
-	    
-	    
-	    
-	    
-	    
 	  if( text == "$" )
 	    text = "mkcls-mapped-dollar-symbol-$";
 	  if( !setVokabular.member(text) )setVokabular.insert(text);

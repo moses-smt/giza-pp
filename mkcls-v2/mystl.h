@@ -27,51 +27,45 @@ USA.
 #define MY_STL_H_DEFINED
 #include <string>
 #include <utility>
-#if __GNUC__>2 
-#include <ext/hash_map>
-using __gnu_cxx::hash_map;
-using __gnu_cxx::hash;
-#else
-#include <hash_map>
-#endif
+#include <tr1/unordered_map>
 #include <cmath>
 
 using namespace std;
 
-#define over_string(a,i) for(unsigned int i=0;i<a.length();i++)
+namespace std {
+ namespace tr1 {
+  template <typename T, typename V>
+  struct hash<pair<T, V> > {
+    static inline void hash_combine(std::size_t & seed, const T & v) {
+       hash<T> hasher;
+       seed ^= hasher(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    }
 
-inline int Hash(const string& s)
-{
-  int sum=0;
-  string::const_iterator i=s.begin(),end=s.end();
-  for(;i!=end;i++)sum=5*sum+(*i);
-  return sum;
+    size_t operator()(const std::pair<T, V>& x) const {
+      size_t h = 0;
+      hash_combine(h, x.first);
+      hash_combine(h, x.second);
+      return h;
+    }
+  };
+ }
 }
 
-template<class V> int Hash(const pair<V,V>&a) 
-{ return Hash(a.first)+4*Hash(a.second); }
+#define over_string(a,i) for(unsigned int i=0;i<a.length();i++)
 
 template<class T1,class T2>
 istream& operator>>(istream &in,pair<T1,T2> &ir)
 {
  char c;
- 
  do in.get(c); while (in && isspace(c));
- 
  if (!in) return in;
- 
  if (c != '(') in.putback(c);
- 
  in >> ir.first;
- 
  do in.get(c); while (isspace(c));
  if (c != ',') in.putback(c);
- 
  in >> ir.second; 
- 
  do in.get(c); while (c == ' ');
  if (c != ')') in.putback(c);
- 
  return in; 
 }
 

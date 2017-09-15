@@ -488,7 +488,7 @@ double StartTraining(int&result)
   cout << "Source vocabulary list has " << eTrainVcbList.uniqTokens() << " unique tokens \n";
   cout << "Target vocabulary list has " << fTrainVcbList.uniqTokens() << " unique tokens \n";
   
-  vcbList eTestVcbList(eTrainVcbList) ;
+  vcbList eTestVcbList(eTrainVcbList) ;  //Things there!
   vcbList fTestVcbList(fTrainVcbList) ;
   
   corpus = new sentenceHandler(CorpusFilename.c_str(), &eTrainVcbList, &fTrainVcbList);

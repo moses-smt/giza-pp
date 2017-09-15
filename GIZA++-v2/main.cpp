@@ -68,6 +68,19 @@ ParSet&getGlobalParSet()
 **/
 
 /**
+class ParSet : public set<ParPtr>
+{
+ public:
+  void insert(const ParPtr&x)
+    {
+      if( count(x)!=0 )
+	cerr << "ERROR: element " << x->getString() << " already inserted.\n";
+      set<ParPtr>::insert(x);
+    }
+};
+**/
+
+/**
 const int PARLEV_ITER=1;
 const int PARLEV_OPTHEUR=2;
 const int PARLEV_OUTPUT=3;

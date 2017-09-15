@@ -49,6 +49,18 @@ USA.
 #define GLOBAL_PARAMETER3(TYP,VARNAME,NAME,NAME2,NAME3,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,DESCRIPTION,LEVEL,&VARNAME,INIT);
 #define GLOBAL_PARAMETER4(TYP,VARNAME,NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,&VARNAME,INIT);
 **/
+
+/**
+const int PARLEV_ITER=1;
+const int PARLEV_OPTHEUR=2;
+const int PARLEV_OUTPUT=3;
+const int PARLEV_SMOOTH=4;
+const int PARLEV_EM=5;
+const int PARLEV_MODELS=6;
+const int PARLEV_SPECIAL=7;
+const int PARLEV_INPUT=8
+**/
+
 GLOBAL_PARAMETER3(int,Model1_Iterations,"Model1_Iterations","NO. ITERATIONS MODEL 1","m1","number of iterations for Model 1",PARLEV_ITER,5);
 GLOBAL_PARAMETER3(int,Model2_Iterations,"Model2_Iterations","NO. ITERATIONS MODEL 2","m2","number of iterations for Model 2",PARLEV_ITER,ITER_M2);
 GLOBAL_PARAMETER3(int,HMM_Iterations,"HMM_Iterations","mh","number of iterations for HMM alignment model","mh",              PARLEV_ITER,ITER_MH);

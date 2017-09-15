@@ -51,6 +51,23 @@ USA.
 **/
 
 /**
+template<class T>const T&addGlobalParameter(const char *name,const char *description,int level,T*adr,const T&init)
+{
+  *adr=init;
+  getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name。
+  return init;
+}
+**/
+
+/**
+ParSet&getGlobalParSet()
+{
+  static ParSet x;
+  return x;
+}
+**/
+
+/**
 const int PARLEV_ITER=1;
 const int PARLEV_OPTHEUR=2;
 const int PARLEV_OUTPUT=3;

@@ -821,16 +821,36 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
   for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
     {
       if( *(*i)==s1 ) 
-      
+      {
       //这里(*i)首先是解引用iterator，得到是ParPtr[typedef MP<_Parameter> ParPtr; //可以粗略的认为是指向_Parameter对象的“指针”对象]
       //然后再解引用*(*i)则是想当于得到_Parameter对象本身
       //这里对于*(*i)即_Parameter对象，它重载了‘==’运算符
       //bool operator==(const string&s)const
       //{ return name== simpleString(s); }
-      
-	{
-	  if( level==-1 || level==(*i)->getLevel() )
+   
+	  if( level==-1 || level==(*i)->getLevel() ) //int getLevel() const { return level;}
 	    (*i)->setParameter(s2,verb);
+   【    
+    virtual bool setParameter(string s2,int verb)
+    { 
+      T x;  
+      if( !(*t==mConvert(s2,x)))
+	{
+	  bool printedFirst=0;
+	  if( verb>1 ) 
+	    {
+	      cout << "Parameter '"<<name <<"' changed from '"<<*t<<"' to '";
+	      printedFirst=1;
+	    }
+	  mConvert(s2,*t);
+	  if( printedFirst ) 
+	    cout << *t <<"'\n";
+	  setChanged();
+	  return 1;
+	} 
+      return 0;
+    }
+    】
 	  else if(verb>1)
 	    cerr << "ERROR: Could not set: (A) " << s1 << " " << s2 << " " << level << " " << (*i)->getLevel() << endl;
 	  return 1;

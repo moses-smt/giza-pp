@@ -849,7 +849,7 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
 }
 */
 /*
-经simpleString处理后的返回的string可以理解为是输入string的小写，去掉特殊字符(这里是除了a-z,0-9之外),然后在每个有效字符后面跟一个空字符的string.
+经simpleString处理后的返回的string可以理解为是输入string的小写，去掉特殊字符(这里是除了a-z,0-9之外),这里的c[1]=0的意思是把每次的char数组变为一个char字符串，即末尾为空字符
 string simpleString(const string s)
 {
   string k;

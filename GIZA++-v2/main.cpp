@@ -44,6 +44,8 @@ USA.
 #define ITER_MH 5
 
 /**
+这些宏定义语句的作用是：1.创建一个类型为TYP的全局变量VARNAME，赋值为INIT  2.利用NAME,ParamterChangedFlag e.t.创建一个Parameter对象，然后返回指向
+                                                                       它的指针，类型转换后(const引用)，插入ParSet(局部静态)中。
 #define GLOBAL_PARAMETER(TYP,VARNAME,NAME,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,DESCRIPTION,LEVEL,&VARNAME,INIT);//这里的&VARNAME是多出来的
 #define GLOBAL_PARAMETER2(TYP,VARNAME,NAME,NAME2,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,DESCRIPTION,LEVEL,&VARNAME,INIT);
 #define GLOBAL_PARAMETER3(TYP,VARNAME,NAME,NAME2,NAME3,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,DESCRIPTION,LEVEL,&VARNAME,INIT);
@@ -117,7 +119,8 @@ GLOBAL_PARAMETER3(bool,Peg,"pegging","p","DO PEGGING? (Y/N)","0: no pegging; 1: 
 
 GLOBAL_PARAMETER(short,OldADBACKOFF,"adbackoff","",-1,0);
 GLOBAL_PARAMETER2(unsigned int,MAX_SENTENCE_LENGTH,"ml","MAX SENTENCE LENGTH","maximum sentence length",0,MAX_SENTENCE_LENGTH_ALLOWED);
-
+//const unsigned int MAX_SENTENCE_LENGTH_ALLOWED=101;
+//所这条语句相当于创建了一个全局变量MAX_SENTENCE_LENGTH，赋值为MAX_SENTENCE_LENGTH_ALLOWED
 
 GLOBAL_PARAMETER(short, DeficientDistortionForEmptyWord,"DeficientDistortionForEmptyWord","0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word",PARLEV_MODELS,0);
 short OutputInAachenFormat=0;

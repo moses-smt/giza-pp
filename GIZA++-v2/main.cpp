@@ -54,6 +54,7 @@ USA.
 template<class T>const T&addGlobalParameter(const char *name,const char *description,int level,T*adr,const T&init)
 {
   *adr=init; //这里是通过adr把它所指向的变量值修改，对应上面的宏定义语句，该变量就是VARNAME，即此处相当于VARNAME=init
+  //ParameterChangedFlag一个bool型变量
   getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name。
   return init;
 }

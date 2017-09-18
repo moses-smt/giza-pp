@@ -44,19 +44,21 @@ USA.
 #define ITER_MH 5
 
 /**
-#define GLOBAL_PARAMETER(TYP,VARNAME,NAME,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,DESCRIPTION,LEVEL,&VARNAME,INIT);
+#define GLOBAL_PARAMETER(TYP,VARNAME,NAME,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,DESCRIPTION,LEVEL,&VARNAME,INIT);//这里的&VARNAME是多出来的
 #define GLOBAL_PARAMETER2(TYP,VARNAME,NAME,NAME2,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,DESCRIPTION,LEVEL,&VARNAME,INIT);
 #define GLOBAL_PARAMETER3(TYP,VARNAME,NAME,NAME2,NAME3,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,DESCRIPTION,LEVEL,&VARNAME,INIT);
 #define GLOBAL_PARAMETER4(TYP,VARNAME,NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,&VARNAME,INIT);
 **/
 
 /**
+//该函数的作用即是把指向Parameter对象的指针转换为ParPtr类型(通过const引用),然后把该对象(ParPtr)insert进我们的局部静态变量ParSet中,最后返回init值。
 template<class T>const T&addGlobalParameter(const char *name,const char *description,int level,T*adr,const T&init)
 {
   *adr=init; //这里是通过adr把它所指向的变量值修改，对应上面的宏定义语句，该变量就是VARNAME，即此处相当于VARNAME=init
   //ParameterChangedFlag一个bool型变量
-  getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name。
-  return init;
+  getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name
+  return init; //最后这一条语句让该函数在处理返回值上显得前面有点多此一举的样子，但！实则不然，我们先关注Parameter<T>的构造函数，它比_Parameter
+               //多接受一个参数T&_t,注意这里是传递引用！所以我们在该new语句中用*adr(对应我们的VARNAME全局变量)必有深意，不能简单传入init(常量)。
 }
 **/
 

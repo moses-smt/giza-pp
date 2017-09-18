@@ -810,6 +810,57 @@ void parseArguments(int argc, char *argv[])
   printGIZAPars(cout);
 }
 */
+	
+/*
+bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
+{
+  ParPtr anf;
+  int anfset=0;
+  string s1=simpleString(_s1);
+  for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
+    {
+      if( *(*i)==s1 )
+	{
+	  if( level==-1 || level==(*i)->getLevel() )
+	    (*i)->setParameter(s2,verb);
+	  else if(verb>1)
+	    cerr << "ERROR: Could not set: (A) " << s1 << " " << s2 << " " << level << " " << (*i)->getLevel() << endl;
+	  return 1;
+	}
+      else if( (*i)->getString().substr(0,s1.length())==s1 )
+	{
+	  anf=(*i);anfset++;
+	}
+    }
+  if(anfset==1)
+    {
+      if( level==-1 || level==anf->getLevel() )
+	anf->setParameter(s2,verb);
+      else if( verb>1 )
+	cerr << "ERROR: Could not set: (B) " << s1 << " " << s2 << " " << level << " " << anf->getLevel() << endl;
+      return 1;
+    }
+  if( anfset>1 )
+    cerr << "ERROR: ambiguous parameter '" << s1 << "'.\n";
+  if( anfset==0 )
+    cerr << "ERROR: parameter '" << s1 << "' does not exist.\n";
+  return 0;
+}
+
+ostream& printPars(ostream&of,const ParSet&parset,int level)
+{
+  if(!of)return of;
+  for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
+    {
+      if(((*i)->getLevel()==level||level==-1)&&(*i)->onlyCopy==0)
+	{
+	  (*i)->printAt(of);
+	  of << endl;
+	}
+    }
+  return of;
+}
+*/
   
   if (Log)
     logmsg.open(LogFilename.c_str(), ios::out);

@@ -830,27 +830,6 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
    
 	  if( level==-1 || level==(*i)->getLevel() ) //int getLevel() const { return level;}
 	    (*i)->setParameter(s2,verb);
-   【    
-    virtual bool setParameter(string s2,int verb)
-    { 
-      T x;  
-      if( !(*t==mConvert(s2,x)))
-	{
-	  bool printedFirst=0;
-	  if( verb>1 ) 
-	    {
-	      cout << "Parameter '"<<name <<"' changed from '"<<*t<<"' to '";
-	      printedFirst=1;
-	    }
-	  mConvert(s2,*t);
-	  if( printedFirst ) 
-	    cout << *t <<"'\n";
-	  setChanged();
-	  return 1;
-	} 
-      return 0;
-    }
-    】
 	  else if(verb>1)
 	    cerr << "ERROR: Could not set: (A) " << s1 << " " << s2 << " " << level << " " << (*i)->getLevel() << endl;
 	  return 1;

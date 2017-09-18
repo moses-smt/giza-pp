@@ -761,6 +761,39 @@ void initGlobals(void)
 }
 */
   parseArguments(argc, argv);
+/*
+void parseArguments(int argc, char *argv[])
+{
+  int arg = 1;
+
+  if(!strcmp(argv[1], "--h") || !strcmp(argv[1], "--help")){
+    printHelp();
+    exit(0);
+  }
+  if( argv[1][0]=='-' )
+    arg=0;
+  else
+    parseConfigFile(argv[1]);
+  while(++arg<argc){
+    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' )
+      {
+	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2))
+	  cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
+      }
+    else if( arg+1<argc && !makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2))
+      cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
+    else
+      {
+	arg++;
+      }
+  }
+  if( OPath.length() )
+    OPath+="/";
+  Prefix = (OPath + Prefix);
+  LogFilename = (OPath + LogFilename);
+  printGIZAPars(cout);
+}
+*/
   
   if (Log)
     logmsg.open(LogFilename.c_str(), ios::out);

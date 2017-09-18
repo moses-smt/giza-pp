@@ -793,7 +793,8 @@ void parseArguments(int argc, char *argv[])
   while(++arg<argc){ 
     if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' )
       {
-	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2)) //这里argv[arg]是一个char *类型，给它加1即是是该指针向后移动移一位，这样就减少了一个'-'
+	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2)) 
+	//这里argv[arg]是一个char *类型，给它加1即是是该指针向后移动移一位，这样就减少了一个'-',但我认为这里应该是+2，否则还是有一轮无用的检测
 	  cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
       }
     else if( arg+1<argc && !makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2))
@@ -839,6 +840,7 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
 	  anf=(*i);anfset++;
 	}
     }
+  //上面的for循环是在我们的ParSet中寻找我们的s1对应的参数(通过参数名字匹配)
   if(anfset==1)
     {
       if( level==-1 || level==anf->getLevel() )

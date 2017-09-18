@@ -57,7 +57,7 @@ USA.
 template<class T>const T&addGlobalParameter(const char *name,const char *description,int level,T*adr,const T&init)
 {
   *adr=init; //这里是通过adr把它所指向的变量值修改，对应上面的宏定义语句，该变量就是VARNAME，即此处相当于VARNAME=init
-  //ParameterChangedFlag一个bool型变量
+  //ParameterChangedFlag一个bool型变量，bool ParameterChangedFlag=0;
   getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name
   return init; //最后这一条语句让该函数在处理返回值上显得前面有点多此一举的样子，但！实则不然，我们先关注Parameter<T>的构造函数，它比_Parameter
                //多接受一个参数T&_t,注意这里是传递引用！所以我们在该new语句中用*adr(对应我们的VARNAME全局变量)必有深意，不能简单传入init(常量)。

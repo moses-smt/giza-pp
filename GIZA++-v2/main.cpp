@@ -847,19 +847,21 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
     cerr << "ERROR: parameter '" << s1 << "' does not exist.\n";
   return 0;
 }
-
-ostream& printPars(ostream&of,const ParSet&parset,int level)
+*/
+/*
+经simpleString处理后的返回的string可以理解为是输入string的小写，去掉特殊字符(这里是除了a-z,0-9之外),然后在每个有效字符后面跟一个空字符的string.
+string simpleString(const string s)
 {
-  if(!of)return of;
-  for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
+  string k;
+  for(unsigned int i=0;i<s.length();++i)
     {
-      if(((*i)->getLevel()==level||level==-1)&&(*i)->onlyCopy==0)
-	{
-	  (*i)->printAt(of);
-	  of << endl;
-	}
+      char c[2];
+      c[0]=tolower(s[i]);
+      c[1]=0;
+      if( (c[0]>='a'&&c[0]<='z')||(c[0]>='0'&&c[0]<='9') )
+	k += c;
     }
-  return of;
+  return k;
 }
 */
   

@@ -788,7 +788,9 @@ void parseArguments(int argc, char *argv[])
     arg=0;
   else
     parseConfigFile(argv[1]);   //这里对应的其实就是对应我们在使用./GIZA++ NAME.gizacfg 的形式
-  while(++arg<argc){
+  //如果不走上面的else分支，这里arg=0，所以++arg为1，而我们的argc也包括执行文件本身的名字在内算一个参数，
+  //所以这里的逻辑就是对每一个参数(除执行文件名外)，进行相应处理
+  while(++arg<argc){ 
     if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' )
       {
 	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2))

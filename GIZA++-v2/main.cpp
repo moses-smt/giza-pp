@@ -136,7 +136,7 @@ GLOBAL_PARAMETER(WordIndex,MAX_FERTILITY,"MAX_FERTILITY","maximal fertility for 
 
 Vector<map< pair<int,int>,char > > ReferenceAlignment;
 
-
+//There we define some global parameters directly! one bool type, others are string.
 bool useDict = false;
 string CoocurrenceFile;
 string Prefix, LogFilename, OPath, Usage, 
@@ -718,6 +718,15 @@ double StartTraining(int&result)
 
 int main(int argc, char* argv[])
 {
+/*
+这些是我们前面直接定义的全局变量(不是通过那个带参宏定义)
+bool useDict = false;
+string CoocurrenceFile;
+string Prefix, LogFilename, OPath, Usage, 
+  SourceVocabFilename, TargetVocabFilename, CorpusFilename, 
+  TestCorpusFilename, t_Filename, a_Filename, p0_Filename, d_Filename, 
+  n_Filename, dictionary_Filename;
+*/
 #ifdef BINARY_SEARCH_FOR_TTABLE
   getGlobalParSet().insert(new Parameter<string>("CoocurrenceFile",ParameterChangedFlag,"",CoocurrenceFile,PARLEV_SPECIAL));
 #endif

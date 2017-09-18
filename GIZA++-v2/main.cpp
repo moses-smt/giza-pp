@@ -518,7 +518,18 @@ double ErrorsInAlignment(const map< pair<int,int>,char >&reference,const Vector<
   else
     return 1.0;
 }
-
+/*
+class vcbList{
+ private:
+  Vector<WordEntry> list ;
+  map<string,int> s2i;
+  double total;
+  WordIndex noUniqueTokens ;
+  WordIndex noUniqueTokensInCorpus ;
+  const char* fname ;
+ public:
+  .....
+*/
 
 vcbList *globeTrainVcbList,*globfTrainVcbList;
 

@@ -812,6 +812,7 @@ void parseArguments(int argc, char *argv[])
 */
 	
 /*
+bool makeSetCommand(string s1,string s2,const ParSet&pars,int verb=1,int level= -1);
 bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
 {
   ParPtr anf;

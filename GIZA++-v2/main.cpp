@@ -779,7 +779,7 @@ void initGlobals(void)
 void parseArguments(int argc, char *argv[])
 {
   int arg = 1;
-
+  //下面是一个提前的判断
   if(!strcmp(argv[1], "--h") || !strcmp(argv[1], "--help")){
     printHelp();
     exit(0);
@@ -787,7 +787,7 @@ void parseArguments(int argc, char *argv[])
   if( argv[1][0]=='-' )
     arg=0;
   else
-    parseConfigFile(argv[1]);
+    parseConfigFile(argv[1]);   //这里对应的其实就是对应我们在使用./GIZA++ NAME.gizacfg 的形式
   while(++arg<argc){
     if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' )
       {

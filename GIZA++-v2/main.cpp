@@ -748,6 +748,15 @@ int main(int argc, char* argv[])
     }
   
   initGlobals() ;
+/*
+void initGlobals(void)
+{
+  NODUMPS = false ;
+  Prefix = Get_File_Spec();
+  LogFilename= Prefix + ".log";
+  MAX_SENTENCE_LENGTH = MAX_SENTENCE_LENGTH_ALLOWED ;
+}
+*/
   parseArguments(argc, argv);
   
   if (Log)

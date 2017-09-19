@@ -668,7 +668,7 @@ double StartTraining(int&result)
 	   cout << "No corpus exists.\n";
 	 }
     }
-   else  //下面的逻辑是StartTraining函数的核心部分
+   else  //下面的逻辑是StartTraining函数的核心部分,下面的逻辑很清楚，我们使用一写指标(比如Model1_Iterations即model1迭代次数)来判断是否执行对应的训练
      {
        // initialize model1
        bool seedModel1 = false ;

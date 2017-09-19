@@ -605,8 +605,8 @@ double StartTraining(int&result)
   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, 
 	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
-   amodel<PROB>  aTable(false);
-   amodel<COUNT> aCountTable(false);
+   amodel<PROB>  aTable(false); // typedef float PROB ;
+   amodel<COUNT> aCountTable(false); //typedef float COUNT ;
    model2 m2(m1,aTable,aCountTable);
    hmm h(m2);
    model3 m3(m2); 
@@ -673,8 +673,8 @@ double StartTraining(int&result)
 	    model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, 
 	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
-            amodel<PROB>  aTable(false);
-            amodel<COUNT> aCountTable(false);
+            amodel<PROB>  aTable(false);  // typedef float PROB ;
+            amodel<COUNT> aCountTable(false); //typedef float COUNT ;
             model2 m2(m1,aTable,aCountTable);
             hmm h(m2);
             model3 m3(m2); 

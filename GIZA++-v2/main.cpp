@@ -805,17 +805,18 @@ void parseArguments(int argc, char *argv[])
   //如果不走上面的else分支，这里arg=0，所以++arg为1，而我们的argc也包括执行文件本身的名字在内算一个参数，
   //所以这里的逻辑就是对每一个参数(除执行文件名外)，进行相应处理
   while(++arg<argc){ 
-    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' ) //这里对应的是--command的情况
+    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' ) //这里对应的是--+的情况
       {
 	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2)) 
 	//这里argv[arg]是一个char *类型，给它加1即是是该指针向后移动移一位，这样就减少了一个'-',但我认为这里应该是+2，否则还是有一轮无用的检测
 	  cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
       }
-    else if( arg+1<argc && !makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2))
+    else if( arg+1<argc && !makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)) //这里对应的是-command的情况
       cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
     else
       {
-	arg++;
+	arg++; //这里对应的arg+1>=argc或makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)返回1的情况，
+	       //假如makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)成功修改，那么比如 -c corpusname，我们希望跳过corpusname这个参数
       }
   }
   if( OPath.length() )

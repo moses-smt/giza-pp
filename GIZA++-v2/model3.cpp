@@ -336,7 +336,8 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
 #define TRAIN_ARGS perp,      trainViterbiPerp, sHandler1,    dump_files, alignfile.c_str(),     true,  modelName,final
 #define TEST_ARGS  *testPerp, *testViterbiPerp, *testHandler, dump_files, test_alignfile.c_str(),false, modelName,final
 
-
+// char fromModel=trainingString[it-1];
+// char toModel=trainingString[it];
     switch( toModel )
       {
       case '3':

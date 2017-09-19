@@ -741,9 +741,11 @@ string Prefix, LogFilename, OPath, Usage,
 double LAMBDA=1.09;
 sentenceHandler *testCorpus=0,*corpus=0;
 Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp ;
-
 string ReadTablePrefix;
 */
+
+//我们下面没有采用一开始的宏定义方法，主要是我们对于这些全局变量没有初始值，而且我们下面的全局变量都是string类型的。更深入些讲前面的全局变量是
+//比如模型迭代次数，平滑参数之类的整型值，下面则是对应为命令行参数，文件名之类的string类型值。
 #ifdef BINARY_SEARCH_FOR_TTABLE
   getGlobalParSet().insert(new Parameter<string>("CoocurrenceFile",ParameterChangedFlag,"",CoocurrenceFile,PARLEV_SPECIAL));
 #endif
@@ -826,7 +828,8 @@ void parseArguments(int argc, char *argv[])
 	
 /*
 bool makeSetCommand(string s1,string s2,const ParSet&pars,int verb=1,int level= -1);
-bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
+bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level) //对于parseArgument中的makeSetCommand这里都是level=-1默认级别
+                                                                                 //verb也都是传入2(>1)
 {
   ParPtr anf;
   int anfset=0;
@@ -843,11 +846,11 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
    
 	  if( level==-1 || level==(*i)->getLevel() ) //int getLevel() const { return level;}
 	    (*i)->setParameter(s2,verb);
-	  else if(verb>1)
+	  else if(verb>1) //这里是如果level条件不满足，则再检查verb参数
 	    cerr << "ERROR: Could not set: (A) " << s1 << " " << s2 << " " << level << " " << (*i)->getLevel() << endl;
-	  return 1;
+	  return 1; //这里在parseArugment中的makeSetCommand的verb传入2，level默认为-1，则如果*(*i)==s1,返回1
 	}
-      else if( (*i)->getString().substr(0,s1.length())==s1 )
+      else if( (*i)->getString().substr(0,s1.length())==s1 ) //如果*(*i)!=s1，但(*i)的子串有等于s1的，进入这一步
 	{
 	  anf=(*i);anfset++;
 	}

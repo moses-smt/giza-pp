@@ -668,7 +668,7 @@ double StartTraining(int&result)
 	   cout << "No corpus exists.\n";
 	 }
     }
-   else 
+   else  //下面的逻辑是StartTraining函数的核心部分
      {
        // initialize model1
        bool seedModel1 = false ;

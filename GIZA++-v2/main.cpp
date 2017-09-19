@@ -669,6 +669,16 @@ double StartTraining(int&result)
 	 }
     }
    else  //下面的逻辑是StartTraining函数的核心部分,下面的逻辑很清楚，我们使用一写指标(比如Model1_Iterations即model1迭代次数)来判断是否执行对应的训练
+	 /*
+	    model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+	    *corpus,&testPerp, testCorpus, 
+	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
+            amodel<PROB>  aTable(false);
+            amodel<COUNT> aCountTable(false);
+            model2 m2(m1,aTable,aCountTable);
+            hmm h(m2);
+            model3 m3(m2); 
+	  */
      {
        // initialize model1
        bool seedModel1 = false ;

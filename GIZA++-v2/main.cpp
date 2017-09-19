@@ -827,6 +827,8 @@ void parseArguments(int argc, char *argv[])
 */
 	
 /*
+makeSetCommand的作用是用s1在我们的ParSet中去寻找(通过name成员匹配,全部匹配或者起始子串匹配)，如果找到，则用s2去修改对应Parameter对象的(*t)，
+即对应全局变量的值，并返回1，否则返回0.
 bool makeSetCommand(string s1,string s2,const ParSet&pars,int verb=1,int level= -1);
 bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level) //对于parseArgument中的makeSetCommand这里都是level=-1默认级别
                                                                                  //verb也都是传入2(>1)

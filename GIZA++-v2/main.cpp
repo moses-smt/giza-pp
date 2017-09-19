@@ -45,7 +45,7 @@ USA.
 
 /**
 这些宏定义语句的作用是：1.创建一个类型为TYP的全局变量VARNAME，赋值为INIT  2.利用NAME,ParamterChangedFlag e.t.创建一个Parameter对象，然后返回指向
-                                                                       它的指针，类型转换后(const引用)，插入ParSet(局部静态)中。
+它的指针，类型转换后(const引用)，插入ParSet(局部静态)中[对于第二点注意如果该全局变量对应有多个名字，则对每个名字都会对应new一个Parameter，返回指针插入ParSet]。
 #define GLOBAL_PARAMETER(TYP,VARNAME,NAME,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,DESCRIPTION,LEVEL,&VARNAME,INIT);//这里的&VARNAME是多出来的
 #define GLOBAL_PARAMETER2(TYP,VARNAME,NAME,NAME2,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,DESCRIPTION,LEVEL,&VARNAME,INIT);
 #define GLOBAL_PARAMETER3(TYP,VARNAME,NAME,NAME2,NAME3,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,DESCRIPTION,LEVEL,&VARNAME,INIT);

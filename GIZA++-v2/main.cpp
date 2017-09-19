@@ -856,7 +856,7 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
 	}
     }
   //上面的for循环是在我们的ParSet中寻找我们的s1对应的参数(通过参数名字匹配)
-  if(anfset==1)
+  if(anfset==1)//如果在(*i)的子串中只匹配到了一次s1，那么也是同样的操作
     {
       if( level==-1 || level==anf->getLevel() )
 	anf->setParameter(s2,verb);

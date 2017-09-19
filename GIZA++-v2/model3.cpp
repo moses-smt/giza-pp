@@ -331,7 +331,7 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
     d4m.clear();
     p0_count = p1_count = 0 ;
 
-#ifdef TRICKY_IBM3_TRAINING
+#ifdef TRICKY_IBM3_TRAINING  //这里必然会进入，因为在前面已经 #define TRICKY_IBM3_TRAINING了。
     
 #define TRAIN_ARGS perp,      trainViterbiPerp, sHandler1,    dump_files, alignfile.c_str(),     true,  modelName,final
 #define TEST_ARGS  *testPerp, *testViterbiPerp, *testHandler, dump_files, test_alignfile.c_str(),false, modelName,final
@@ -343,6 +343,7 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
 	switch(fromModel )
 	  {
 	  case 'H':
+            //注意viterbi_loop_with_tricks函数定义不在model3.h中，而是在model3_viterbi_with_tricks.cpp中。
 	    viterbi_loop_with_tricks  <transpair_modelhmm,const hmm>(TRAIN_ARGS,h,(void*)0);
 	    if (testPerp && testHandler)
 	      viterbi_loop_with_tricks<transpair_modelhmm,const hmm>(TEST_ARGS, h,(void*)0);

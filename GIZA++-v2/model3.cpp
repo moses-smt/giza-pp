@@ -269,6 +269,13 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
   sHandler1.rewind();
   if (testPerp && testHandler)
     (*testHandler).rewind();
+/*
+model3::model3(model2& m2) : 
+  model2(m2),dTable(true), dCountTable(true), 
+  nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
+  nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0) 这里h是hmm *类型，hmm是一个类
+{}
+*/
   string trainingString;
   trainingString+=(h?'H':'3');
   for(int i=0;i<noIterationsModel3;++i) trainingString+='3';

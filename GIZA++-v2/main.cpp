@@ -61,6 +61,7 @@ template<class T>const T&addGlobalParameter(const char *name,const char *descrip
   getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name
   return init; //最后这一条语句让该函数在处理返回值上显得前面有点多此一举的样子，但！实则不然，我们先关注Parameter<T>的构造函数，它比_Parameter
                //多接受一个参数T&_t,注意这里是传递引用！所以我们在该new语句中用*adr(对应我们的VARNAME全局变量)必有深意，不能简单传入init(常量)。
+	       //Attention!我们new的Parameter对象的成员T *t对应的是用来初始化该对象的全局变量！！！，即t是指向我们的全局变量的指针！！！！
 }
 **/
 
@@ -802,7 +803,7 @@ void parseArguments(int argc, char *argv[])
   //如果不走上面的else分支，这里arg=0，所以++arg为1，而我们的argc也包括执行文件本身的名字在内算一个参数，
   //所以这里的逻辑就是对每一个参数(除执行文件名外)，进行相应处理
   while(++arg<argc){ 
-    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' )
+    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' ) //这里对应的是--command的情况
       {
 	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2)) 
 	//这里argv[arg]是一个char *类型，给它加1即是是该指针向后移动移一位，这样就减少了一个'-',但我认为这里应该是+2，否则还是有一轮无用的检测
@@ -832,7 +833,7 @@ bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level)
   string s1=simpleString(_s1);
   for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
     {
-      if( *(*i)==s1 ) 
+      if( *(*i)==s1 ) //如果对应找到了,由下面的描述易知这里的有一步多余的simpleString操作。
       {
       //这里(*i)首先是解引用iterator，得到是ParPtr[typedef MP<_Parameter> ParPtr; //可以粗略的认为是指向_Parameter对象的“指针”对象]
       //然后再解引用*(*i)则是想当于得到_Parameter对象本身

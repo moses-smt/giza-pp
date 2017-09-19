@@ -291,7 +291,8 @@ model3::model3(model2& m2) :
     logmsg << "Starting "<<trainingString<<":  Viterbi Training";
   }
   cout << "\n "<<trainingString<<" Training Started at: "<< ctime(&st) << '\n';
-  for(unsigned int it=1; it < trainingString.length(); it++){
+  //Take care of the for loop, the block of it if fucking long! 
+  for(unsigned int it=1; it < trainingString.length(); it++){ //Here's the start
   bool final=0;
     if( it==trainingString.length()-1 )
       final=1;
@@ -504,7 +505,7 @@ model3::model3(model2& m2) :
     it_fn = time(NULL) ;
     cout << "\n" << modelName << " Viterbi Iteration : "<<it<<  " took: " <<
       difftime(it_fn, it_st) << " seconds\n";
-  } /* of iterations */
+  } /* of iterations */  //ok! you find it ! The end of the brace of the for loop .
   fn = time(NULL);
   cout << trainingString <<" Training Finished at: " << ctime(&fn) << "\n";
   cout << "\n" << "Entire Viterbi "<<trainingString<<" Training took: " << difftime(fn, st) << " seconds\n";

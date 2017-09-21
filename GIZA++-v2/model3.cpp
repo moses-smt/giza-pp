@@ -277,6 +277,13 @@ model3::model3(model2& m2) :
 {}
 */
   string trainingString;
+/*
+model3::model3(model2& m2) : 
+  model2(m2),dTable(true), dCountTable(true), 
+  nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
+  nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0)
+{}
+*/
   trainingString+=(h?'H':'3');  //这里我们一开始把h初始化为指向0(NULL)的指针，所以这里等价于trainingString+='3'
   //这里的noIterationModel[3,4,5,6]对应的是我们的全局变量Model[3,4,5,6]_Iterations，即迭代次数，易知下面的逻辑是迭代几次，concatenate几个'[3,4,5,6]'
   for(int i=0;i<noIterationsModel3;++i) trainingString+='3';

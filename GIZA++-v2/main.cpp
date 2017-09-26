@@ -734,6 +734,7 @@ short NoEmptyWord=0;
 bool FEWDUMPS=0;
 */
 	   //这里由于Transfer2to3被初始化为0，且在该语句前没有改变值；HMM_Iterations则是我们的初值为ITER_MH(ITER_MH=5)的全局变量
+	   //所以该if block不会进入
 	   if(Transfer2to3||HMM_Iterations==0){
 	     if( HMM_Iterations>0 )
 	       cout << "WARNING: transfor is not needed, as results are overwritten bei transfer from HMM.\n";

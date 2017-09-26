@@ -618,6 +618,7 @@ class Dictionary{
   tmodel<COUNT, PROB> tTable;
 #endif
   //下面这里是我们把训练所需的文件传入模型，然后我们一级一级的使用简单的模型去初始化复杂模型
+  // Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp ;
   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, 
 	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。

@@ -69,7 +69,7 @@ model3::~model3()
   nCountTable.clear();
 }
 
-
+//由于我们都是利用之前的model1,model2的结果，并不是从model3开始，所以model3::em该函数并没有使用
 void model3::em(int noIterations, sentenceHandler& sHandler1)
 {
 

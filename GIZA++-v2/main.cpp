@@ -620,6 +620,8 @@ class Dictionary{
 #else
   tmodel<COUNT, PROB> tTable;
 #endif
+	
+	
   //下面这里是我们把训练所需的文件传入模型，然后我们一级一级的使用简单的模型去初始化复杂模型
   // Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp ;
   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
@@ -630,6 +632,9 @@ class Dictionary{
    model2 m2(m1,aTable,aCountTable);
    hmm h(m2);
    model3 m3(m2); 
+	
+	
+   //这个if不用看
    if(ReadTablePrefix.length() ) //这里注意默认我们并不使用ReadTablePrefix参数，所以该全局变量长度为0，所以默认情况下不进入这里的逻辑
 	                         //这里的逻辑和else中的逻辑大同小异
      {

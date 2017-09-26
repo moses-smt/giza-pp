@@ -317,6 +317,7 @@ model3::model3(model2& m2) :
     //这里的dump_files是我们之前在该函数中定义的bool类型变量，我们初始化它为false，不过在该语句前我们并没有使用该变量，所以看来只需定义，无需初始化
     //这里的NODUMPS是我们main.cpp的全局变量，它的初值为0，description是 do not write any file
     dump_files = (final || ((Model3_Dump_Freq != 0) && ((it % Model3_Dump_Freq) == 0))) && !NODUMPS ;
+    //可见只有当final=true时dump_files才为true，即当进行到最后一轮循环时dump_files为true
     string d4file2;
     {
       // set up the names of the files where the tables will be printed 

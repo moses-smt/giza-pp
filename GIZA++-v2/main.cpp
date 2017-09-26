@@ -599,6 +599,9 @@ class Dictionary{
 };
 */
   Dictionary *dictionary;  
+//  getGlobalParSet().insert(new Parameter<string>("d",ParameterChangedFlag,"dictionary file name",dictionary_Filename,PARLEV_INPUT)); #const int PARLEV_INPUT=8
+//  getGlobalParSet().insert(new Parameter<string>("DICTIONARY",ParameterChangedFlag,"dictionary file name",dictionary_Filename,-1));
+//这里的dictionary_Filename是我们定义的全局变量，它接受我们调用./GIZA++ ...的参数作为值，一般我们不适用dictionary文件，所以它为空，所以useDict为false
   useDict = !dictionary_Filename.empty();
   if (useDict) dictionary = new Dictionary(dictionary_Filename.c_str());
   else dictionary = new Dictionary("");

@@ -585,6 +585,19 @@ double StartTraining(int&result)//这里result默认是-1
   LAMBDA = double(fTrainVcbList.totalVocab()) / (eTrainVcbList.totalVocab()-corpus->getTotalNoPairs2());
   cout << "= " << LAMBDA << '\n';
   // load dictionary
+/*
+class Dictionary{
+ private:
+  Vector<int> pairs[2];
+  int currval;
+  int currindexmin;
+  int currindexmax;
+  bool dead;
+ public:
+  Dictionary(const char *);
+  bool indict(int, int);
+};
+*/
   Dictionary *dictionary;  
   useDict = !dictionary_Filename.empty();
   if (useDict) dictionary = new Dictionary(dictionary_Filename.c_str());
@@ -684,7 +697,8 @@ double StartTraining(int&result)//这里result默认是-1
        // initialize model1
        bool seedModel1 = false ;
        if(Model1_Iterations > 0){
-	 if (t_Filename != "NONE" && t_Filename != ""){
+	 if (t_Filename != "NONE" && t_Filename != ""){  //这里的t_Filename我们只是创建了这个string变量，但没有初始化或者赋值，所以它必为空
+         //所以这个if block并不进入，这里我们的t_Filename在main函数中也没有用到，很可能是这部分代码并没有完成
 	   seedModel1 = true ;
 	   m1.load_table(t_Filename.c_str());
 	 }

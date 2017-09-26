@@ -622,9 +622,11 @@ class Dictionary{
 #endif
 	
 	
-  //下面这里是我们把训练所需的文件传入模型，然后我们一级一级的使用简单的模型去初始化复杂模型
-  // Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp ;
-  model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+  // 下面这里是我们把训练所需的文件传入模型，然后我们一级一级的使用简单的模型去初始化复杂模型
+  // Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp;
+  // 下面参数中的tTable是在之前定义的：tmodel<COUNT, PROB> tTable; 还没有初始化。当然如果我们有BINARY_SEARCH_FOR_TTABLE的话，
+  // 那么就变成了tmodel<COUNT, PROB> tTable(CoocurrenceFile); 定义且初始化了。
+   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, 
 	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
    amodel<PROB>  aTable(false); // typedef float PROB ;

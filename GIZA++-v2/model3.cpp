@@ -43,6 +43,9 @@ model3::model3(model2& m2) :
   nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0)
 {}
 
+
+
+//看起来作者已经给我们准备好了test所需的函数，现在我们的工作就更简单了。
 void model3::load_tables(const char *nfile, const char *dfile, const char *p0file){
   cout << "Model3: loading n, d, p0 tables \n";
 
@@ -60,7 +63,11 @@ void model3::load_tables(const char *nfile, const char *dfile, const char *p0fil
     }
   cout << "p0 is: " << p0 << " p1:" << p1 << '\n';
 }
+
+
+
   
+
 model3::~model3()
 {
   dTable.clear();

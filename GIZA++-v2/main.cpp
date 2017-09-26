@@ -722,7 +722,13 @@ class Dictionary{
 	     minIter=h.em_with_tricks(HMM_Iterations);
 	     errors=h.errorsAL();
 	   }
-	   
+/*
+short OutputInAachenFormat=0;
+bool Transfer=TRANSFER;
+bool Transfer2to3=0;
+short NoEmptyWord=0;
+bool FEWDUMPS=0;
+*/
 	   if(Transfer2to3||HMM_Iterations==0){
 	     if( HMM_Iterations>0 )
 	       cout << "WARNING: transfor is not needed, as results are overwritten bei transfer from HMM.\n";

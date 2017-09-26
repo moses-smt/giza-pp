@@ -534,7 +534,7 @@ class vcbList{
 
 vcbList *globeTrainVcbList,*globfTrainVcbList;
 
-double StartTraining(int&result)
+double StartTraining(int&result)//这里result默认是-1
 { 
   double errors=0.0;
   vcbList eTrainVcbList, fTrainVcbList;

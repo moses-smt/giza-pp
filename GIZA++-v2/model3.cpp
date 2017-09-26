@@ -326,6 +326,8 @@ model3::model3(model2& m2) :
       } while((n /= 10) > 0);
       if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前我们的number = "";
 	number="final"; 
+//string tfile, tfile_actual, dfile, afile, nfile, nfile_actual, p0file, alignfile, number, test_alignfile, d4file,d5file,zeroFertFile;
+//下面都是该函数前面定义的string变量
       tfile = Prefix + ".t3." + number ;
       tfile_actual = Prefix + ".actual.t3." + number ;
       afile = Prefix + ".a3." + number ;

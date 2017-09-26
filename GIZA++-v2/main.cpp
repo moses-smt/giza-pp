@@ -759,6 +759,8 @@ bool FEWDUMPS=0;
 	   
 	   if( HMM_Iterations>0 )
 	     m3.setHMM(&h);
+	   //暂定把下面两个if内容单独摘出来，利用之前步骤中的结果直接来进行，但这里有一个问题，如果之前步骤中的某些必要结果
+	   //并没有输出到文件中，那么我们必须在代码中进行相应修改。
 	   if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations
 	      )
 	     {

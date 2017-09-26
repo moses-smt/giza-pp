@@ -762,6 +762,8 @@ bool FEWDUMPS=0;
 		                   //所以必然会进入该if block
 	     {
 	       printAllTables(eTrainVcbList,eTestVcbList,fTrainVcbList,fTestVcbList,m1 );
+	       //这里我们是把m1的em迭代的结果打印出来，打印到文件，这里共有后缀为:ti.final,actual.ti.final,prep,
+	       //trn.src.vcb,trn.trg.vcb,tst.src.vcb,tst.trg.vcb的文件
 	     }
 	 }
      }

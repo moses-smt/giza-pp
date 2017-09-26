@@ -610,7 +610,8 @@ double StartTraining(int&result)
    model2 m2(m1,aTable,aCountTable);
    hmm h(m2);
    model3 m3(m2); 
-   if(ReadTablePrefix.length() ) //这里注意默认我们并不实用ReadTablePrefix参数，所以该全局变量长度为0，所以不进入这里的逻辑
+   if(ReadTablePrefix.length() ) //这里注意默认我们并不使用ReadTablePrefix参数，所以该全局变量长度为0，所以默认情况下不进入这里的逻辑
+	                         //这里的逻辑和else中的逻辑大同小异
      {
        string number = "final";
        string tfile,afilennfile,dfile,d4file,p0file,afile,nfile; //d5file

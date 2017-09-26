@@ -429,6 +429,7 @@ void model3::viterbi_loop_with_tricks(Perplexity& perp, Perplexity& viterbiPerp,
   int pair_no;
   HillClimbingSteps=0;
   NumberOfAlignmentsInSophisticatedCountCollection=0;
+  //这里FEWDUMPS,ONLYALDUMPS初值都为0（DUMPS初值也为0）
   if (dump_files||FEWDUMPS||(final&&(ONLYALDUMPS)) )
     of2.open(alignfile);
   if( dump_files&&PrintN&&final )
@@ -585,6 +586,7 @@ void model3::viterbi_loop_with_tricks(Perplexity& perp, Perplexity& viterbiPerp,
       perp.addFactor(log(double(align_total_count)), count, l, m,0);
       viterbiPerp.addFactor(log(double(setOfGoodCenters[bestAlignment].second)), count, l, m,0);
       massert(log(double(setOfGoodCenters[bestAlignment].second)) <= log(double(align_total_count)));
+      //这里FEWDUMPS,ONLYALDUMPS初值都为0（DUMPS初值也为0）
       if (dump_files||(FEWDUMPS&&sent.sentenceNo<1000)||(final&&(ONLYALDUMPS)) )
 	printAlignToFile(es, fs, Elist.getVocabList(), Flist.getVocabList(), of2, (setOfGoodCenters[bestAlignment].first)->getAlignment(), pair_no, 
 			 setOfGoodCenters[bestAlignment].second);

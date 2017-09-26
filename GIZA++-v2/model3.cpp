@@ -324,7 +324,7 @@ model3::model3(model2& m2) :
 	//mj changed next line
 	number.insert((size_t) 0, 1, (char)(n % 10 + '0'));
       } while((n /= 10) > 0);
-      if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前我们的number = "";
+      if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前不到最后一个循环时我们的number是经过上面的do while循环的值
 	number="final"; 
 //string tfile, tfile_actual, dfile, afile, nfile, nfile_actual, p0file, alignfile, number, test_alignfile, d4file,d5file,zeroFertFile;
 //下面都是该函数前面定义的string变量

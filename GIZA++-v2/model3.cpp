@@ -300,8 +300,9 @@ model3::model3(model2& m2) :
   cout << "\n "<<trainingString<<" Training Started at: "<< ctime(&st) << '\n';
   //Take care of the for loop, the block of it if fucking long! 
   for(unsigned int it=1; it < trainingString.length(); it++){ //Here's the start
-  bool final=0;
-    if( it==trainingString.length()-1 )
+  //很明显这里的it是循环变量
+    bool final=0;
+    if( it==trainingString.length()-1 )//这里的意思是当我们走到最后一次循环时，我们把final置为1，当然我们创建final这个变量就是这个意思
       final=1;
     string modelName;
     char fromModel=trainingString[it-1],toModel=trainingString[it];
@@ -323,8 +324,8 @@ model3::model3(model2& m2) :
 	//mj changed next line
 	number.insert((size_t) 0, 1, (char)(n % 10 + '0'));
       } while((n /= 10) > 0);
-      if( final )
-	number="final";
+      if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前我们的number = "";
+	number="final"; 
       tfile = Prefix + ".t3." + number ;
       tfile_actual = Prefix + ".actual.t3." + number ;
       afile = Prefix + ".a3." + number ;

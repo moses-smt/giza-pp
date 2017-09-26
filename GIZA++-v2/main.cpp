@@ -758,7 +758,8 @@ bool FEWDUMPS=0;
 	       minIter=m3.viterbi(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
 	       errors=m3.errorsAL();
 	     }
-	   if (FEWDUMPS||!NODUMPS)
+	   if (FEWDUMPS||!NODUMPS) //由于FEWDUMPS和NODUMPS的值在执行到这里时都为0(实际上他们的初值都为为0,我们并没有改变它们的值)
+		                   //所以必然会进入该if block
 	     {
 	       printAllTables(eTrainVcbList,eTestVcbList,fTrainVcbList,fTestVcbList,m1 );
 	     }

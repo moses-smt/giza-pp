@@ -95,6 +95,9 @@ const int PARLEV_EM=5;
 const int PARLEV_MODELS=6;
 const int PARLEV_SPECIAL=7;
 const int PARLEV_INPUT=8
+还有本main.cpp文件中前面的
+#define ITER_M2 0
+#define ITER_MH 5
 **/
                // type,variable         ,name               ,name2                  ,name3,description                      ,level       ,init(初始值)
 GLOBAL_PARAMETER3(int,Model1_Iterations,"Model1_Iterations","NO. ITERATIONS MODEL 1","m1","number of iterations for Model 1",PARLEV_ITER,5);

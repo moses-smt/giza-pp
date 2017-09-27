@@ -567,6 +567,7 @@ double StartTesting(int &result)
   dictionary = new Dictionary("");
   int minIter=0;
   //下面的宏判断我还不确定在test阶段要怎么修改，暂时先不动它
+  /*
   #ifdef BINARY_SEARCH_FOR_TTABLE
   if( CoocurrenceFile.length()==0 )
     {
@@ -578,6 +579,7 @@ double StartTesting(int &result)
   #else
   tmodel<COUNT, PROB> tTable;
   #endif
+  */
    
    model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, //这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。

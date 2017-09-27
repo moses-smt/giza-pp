@@ -757,18 +757,20 @@ bool FEWDUMPS=0;
 	     errors=m3.errorsAL();
 	   }
 	   
+		 
+		 
            //void setHMM(hmm*_h){h=_h;},在这里修改我们的model3的数据成员h(之前我们在构造model3对象时对于除基类model2以外都使用了默认参数，h被初始化为空指针)
 	   if( HMM_Iterations>0 )
 	     m3.setHMM(&h);
-		 
-	   //暂定把下面两个if内容单独摘出来，利用之前步骤中的结果直接来进行，但这里有一个问题，如果之前步骤中的某些必要结果
-	   //并没有输出到文件中，那么我们必须在代码中进行相应修改。
 	   if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations
 	      )
 	     {
 	       minIter=m3.viterbi(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
 	       errors=m3.errorsAL();
 	     }
+		 
+		 
+		 
 	   if (FEWDUMPS||!NODUMPS) //由于FEWDUMPS和NODUMPS的值在执行到这里时都为0(实际上他们的初值都为为0,我们并没有改变它们的值)
 		                   //所以必然会进入该if block
 	     {

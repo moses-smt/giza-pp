@@ -264,6 +264,7 @@ extern short DoViterbiTraining;
 
 int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterationsModel5,int noIterationsModel6)
 {
+  //初始化minErrors和minIter的值分别为1.0和0
   double minErrors=1.0;int minIter=0;
   d4model d4m(MAX_SENTENCE_LENGTH);
   d4m.makeWordClasses(Elist,Flist,SourceVocabFilename+".classes",TargetVocabFilename+".classes");
@@ -462,13 +463,16 @@ model3::model3(model2& m2) :
       viterbi_loop(*testPerp, *testViterbiPerp, *testHandler, 
 		   dump_files, test_alignfile.c_str(), false, model);
  
-#endif		 
+#endif	
+     
+    //通过这个if来改变minErros和minIter的值(满足条件的情况下)
     if( errorsAL()<minErrors )
       {
 	minErrors=errorsAL();
         minIter=it;
       }
 
+	  
     // now normalize count tables 
     if( dump_files&&OutputInAachenFormat==1 ) //OutputInAachenFormat是我们main函数中的全局变量，初始值为0，所以这个printCountTable不执行
       tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
@@ -513,6 +517,8 @@ model3::model3(model2& m2) :
       cout << modelName << ":  ("<<it<<")TEST VITERBI CROSS-ENTROPY " << (*testViterbiPerp).cross_entropy()
 	   << " PERPLEXITY " << (*testViterbiPerp).perplexity() << " Sum: " << (*testViterbiPerp).getSum() <<
 	" wc: " << (*testViterbiPerp).word_count() << '\n';
+	
+    //把我们的结果输出到文件中
     if (dump_files)//当执行到该for循环的最后一轮时，dump_files为true，则下面的block会执行
       {
 	if( OutputInAachenFormat==0 ) //OutputInAachenFormat是main.cpp中的全局变量，初始值为0，则该printProbTable会执行
@@ -524,17 +530,21 @@ model3::model3(model2& m2) :
 	of << p0;
 	of.close();
       }
-    
+      
     it_fn = time(NULL) ;
     cout << "\n" << modelName << " Viterbi Iteration : "<<it<<  " took: " <<
       difftime(it_fn, it_st) << " seconds\n";
   } /* of iterations */  //ok! you find it ! The end of the brace of the for loop .
+	
+	
   fn = time(NULL);
   cout << trainingString <<" Training Finished at: " << ctime(&fn) << "\n";
   cout << "\n" << "Entire Viterbi "<<trainingString<<" Training took: " << difftime(fn, st) << " seconds\n";
   cout << "==========================================================\n";
+  //通过if调整minIter的值(如果满足条件)
   if( noIterationsModel4||noIterationsModel5 )
     minIter-=noIterationsModel3;
+  //通过if调整minIter的值(如果满足条件)
   if( noIterationsModel5 )
     minIter-=noIterationsModel4;
   return minIter;

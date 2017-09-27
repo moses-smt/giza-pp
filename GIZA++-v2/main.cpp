@@ -540,6 +540,15 @@ class vcbList{
 
 vcbList *globeTrainVcbList,*globfTrainVcbList;
 
+
+//我们自己创建的新的StartTesting函数
+double StartTesting(int &result)
+{
+	
+}
+
+
+
 double StartTraining(int&result)//这里result默认是-1
 { 
   double errors=0.0;

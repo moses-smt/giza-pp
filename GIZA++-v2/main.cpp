@@ -544,7 +544,64 @@ vcbList *globeTrainVcbList,*globfTrainVcbList;
 //我们自己创建的新的StartTesting函数
 double StartTesting(int &result)
 {
+  double errors=0.0;
+  vcbList eTrainVcbList, fTrainVcbList;
+  globeTrainVcbList=&eTrainVcbList;
+  globfTrainVcbList=&fTrainVcbList;
 	
+  eTrainVcbList.setName(SourceVocabFilename.c_str());
+  fTrainVcbList.setName(TargetVocabFilename.c_str());
+  eTrainVcbList.readVocabList();
+  fTrainVcbList.readVocabList();
+	
+  vcbList eTestVcbList(eTrainVcbList) ; //here we know that no need to give testVcb,we use trainVcb to initialize them.
+  vcbList fTestVcbList(fTrainVcbList) ;
+	
+  corpus = new sentenceHandler(CorpusFilename.c_str(), &eTrainVcbList, &fTrainVcbList);
+  if (TestCorpusFilename == "NONE")
+    TestCorpusFilename = "";
+
+  if (TestCorpusFilename != "")
+      testCorpus= new sentenceHandler(TestCorpusFilename.c_str(), &eTestVcbList, &fTestVcbList);
+  useDict=0;
+  dictionary = new Dictionary("");
+  int minIter=0;
+  //下面的宏判断我还不确定在test阶段要怎么修改，暂时先不动它
+  #ifdef BINARY_SEARCH_FOR_TTABLE
+  if( CoocurrenceFile.length()==0 )
+    {
+      cerr << "ERROR: NO COOCURRENCE FILE GIVEN!\n";
+      abort();
+    }
+  //ifstream coocs(CoocurrenceFile.c_str());
+  tmodel<COUNT, PROB> tTable(CoocurrenceFile);
+  #else
+  tmodel<COUNT, PROB> tTable;
+  #endif
+   
+   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+	    *corpus,&testPerp, testCorpus, //这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
+	    trainViterbiPerp, &testViterbiPerp);//trainViterbiPerp,testViterbiPerp同样是前面定义的未初始化的全局变量
+   amodel<PROB>  aTable(false); // typedef float PROB ;
+   amodel<COUNT> aCountTable(false); //typedef float COUNT ;
+   model2 m2(m1,aTable,aCountTable);
+   //对m2进行load_table操作
+   model1 *p1=&m2; 
+   p1->load_table("ttable.file"); //这里故意使用非virtual的函数，其实貌似直接m1.load_table(..)也可以
+   m2.load_table("atable.file");
+   //load结束
+   hmm h(m2);
+   model3 m3(m2);
+	
+   if( HMM_Iterations>0 )
+       m3.setHMM(&h);
+   if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations)
+      {
+	 minIter=m3.viterbi(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
+	 errors=m3.errorsAL();
+      }
+   result=minIter;
+   return errors;
 }
 
 

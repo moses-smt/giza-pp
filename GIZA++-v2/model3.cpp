@@ -38,7 +38,12 @@ GLOBAL_PARAMETER4(int,Model3_Dump_Freq,"MODEL 345 DUMP FREQUENCY","MODEL 3 DUMP 
 extern int Transfer_Dump_Freq;
 
 model3::model3(model2& m2) : 
-  model2(m2),dTable(true), dCountTable(true), 
+  model2(m2),dTable(true), dCountTable(true), //dTable,dCountTable都是amodel对象
+/*
+    amodel(bool flag)
+    : a(MAX_SENTENCE_LENGTH+1,0.0), is_distortion(flag), MaxSentLength(MAX_SENTENCE_LENGTH)
+    {}; 
+*/
   nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
   nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0)
 {}

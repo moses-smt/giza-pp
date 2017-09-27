@@ -92,7 +92,7 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
     initAL();
     em_loop(it,perp, sHandler1, seedModel1, dump_files, alignfile.c_str(), dictionary, useDict, trainViterbiPerp); //dump_files为false，即不会把对应的table写到文件中去
     //这里的testPerp,testHandler都是我们的基类report_info中的数据成员,他们都是指针类型,这样它们可以进行逻辑判断就说的清了
-    //在main.cpp中：这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
+    //在main.cpp中：这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
     if (testPerp && testHandler) // calculate test perplexity
       em_loop(it,*testPerp, *testHandler, seedModel1, dump_files, test_alignfile.c_str(), dictionary, useDict, *testViterbiPerp, true);//dump_files为false 
     if( errorsAL()<minErrors )

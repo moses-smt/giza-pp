@@ -597,7 +597,7 @@ double StartTesting(int &result)
        m3.setHMM(&h);
    if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations)
       {
-	 minIter=m3.viterbi(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
+	 minIter=m3.viterbi_test(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
 	 errors=m3.errorsAL();
       }
    result=minIter;

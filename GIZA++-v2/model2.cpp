@@ -92,6 +92,7 @@ int model2::em_with_tricks(int noIterations)
 	minErrors=errorsAL();
         minIter=it;
       }
+    //在main.cpp中：这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
     if (testPerp && testHandler)//这里的testPerp,testHandler都是基类report_info中数据成员，都是指针类型，所以可以进行逻辑判断
       em_loop(*testPerp, *testHandler, dump_files, test_alignfile.c_str(), *testViterbiPerp, true); //这里dump_files为false,意味着不把table写入alignfile中
     if (dump_files&&OutputInAachenFormat==1)

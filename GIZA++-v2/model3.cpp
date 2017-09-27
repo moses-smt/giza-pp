@@ -355,6 +355,9 @@ model3::model3(model2& m2) :
     //    tCountTable.clear();
     dCountTable.clear();
     aCountTable.clear();
+    // void initAL(){ALmissingVALI=ALtoomuchVALI=ALeventsMissingVALI=ALeventsToomuchVALI=ALmissingTEST=\
+    //ALtoomuchTEST=ALeventsMissingTEST=ALeventsToomuchTEST=ALmissing=ALtoomuch=ALeventsMissing=ALeventsToomuch=0;}
+    //该initAL函数使用的是model1.h中定义的版本，在model2和model3中我们没有覆盖定义它
     initAL();
     nCountTable.clear();
     d4m.clear();

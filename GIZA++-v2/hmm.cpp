@@ -400,6 +400,17 @@ void hmm::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
   errorReportAL(cout,"HMM");
 }
 
+//这里添加我们在hmm.h中新增的函数
+void hmm::print_ttable(filename)
+{
+	tTable.printProbTable(filename,Elist.getVocabList(),Flist.getVocabList(),OutputInAachenFormat);
+}
+
+void hmm::print_atable(filename)
+{
+	aTable.printTable(filename);
+}
+
 #include "HMMTables.cpp"
 template class HMMTables<int,WordClasses>;
  

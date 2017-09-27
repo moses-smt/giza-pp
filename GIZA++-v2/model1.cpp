@@ -79,7 +79,8 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
     pair_no = 0 ;
     it_st = time(NULL);
     cout <<  "-----------\n" << modelName << ": Iteration " << it << '\n';
-    dump_files = (Model1_Dump_Freq != 0) &&  ((it % Model1_Dump_Freq)  == 0) && !NODUMPS ;
+    //GLOBAL_PARAMETER2(int,Model1_Dump_Freq,"MODEL 1 DUMP FREQUENCY","t1","dump frequency of Model 1",PARLEV_OUTPUT,0);
+    dump_files = (Model1_Dump_Freq != 0) &&  ((it % Model1_Dump_Freq)  == 0) && !NODUMPS ; //易见这里Model1_Dump_Freq值为0，所以dump_files也为0，即使false
     number = "";
     int n = it;
     do{
@@ -89,9 +90,11 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
     alignfile = Prefix + ".A" + shortModelName + "." + number ;
     test_alignfile = Prefix +".tst.A" + shortModelName + "." + number ;
     initAL();
-    em_loop(it,perp, sHandler1, seedModel1, dump_files, alignfile.c_str(), dictionary, useDict, trainViterbiPerp); 
+    em_loop(it,perp, sHandler1, seedModel1, dump_files, alignfile.c_str(), dictionary, useDict, trainViterbiPerp); //dump_files为false，即不会把对应的table写到文件中去
+    //这里的testPerp,testHandler都是我们的基类report_info中的数据成员,他们都是指针类型,这样它们可以进行逻辑判断就说的清了
+    //在main.cpp中：这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
     if (testPerp && testHandler) // calculate test perplexity
-      em_loop(it,*testPerp, *testHandler, seedModel1, dump_files, test_alignfile.c_str(), dictionary, useDict, *testViterbiPerp, true); 
+      em_loop(it,*testPerp, *testHandler, seedModel1, dump_files, test_alignfile.c_str(), dictionary, useDict, *testViterbiPerp, true);//dump_files为false 
     if( errorsAL()<minErrors )
       {
 	minErrors=errorsAL();
@@ -148,7 +151,7 @@ void model1::em_loop(int it,Perplexity& perp, sentenceHandler& sHandler1, bool s
   viterbi_perp.clear();
   ofstream of2;
   // for each sentence pair in the corpus
-  if (dump_alignment||FEWDUMPS)
+  if (dump_alignment||FEWDUMPS)//这里的dump_alignment形参即是我们的em_with_tricks中dump_files参数，值一直都是false，同时FEWDUMPS也是0，所以该if不执行
     of2.open(alignfile);
   PROB uniform = 1.0/noFrenchWords ;
   sentPair sent ;
@@ -271,7 +274,7 @@ void model1::em_loop(int it,Perplexity& perp, sentenceHandler& sHandler1, bool s
     //cerr << sent << "CE: " << cross_entropy << " " << so << endl;
     perp.addFactor(cross_entropy-m*log(l+1.0), so, l, m,1);
     viterbi_perp.addFactor(log(viterbi_score)-m*log(l+1.0), so, l, m,1);
-    if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000))
+    if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000)) //同理，这里dump_alignment和FEWDUMPS是false，所以该if的block不执行
       printAlignToFile(es, fs, evlist, fvlist, of2, viterbi_alignment, sent.sentenceNo, viterbi_score);
     addAL(viterbi_alignment,sent.sentenceNo,l);
     pair_no++;

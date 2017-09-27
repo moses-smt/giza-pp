@@ -20,6 +20,9 @@ USA.
 
 */
 
+
+// new main.cpp
+
 #include <sstream>
 #include "getSentence.h"
 #include "TTables.h"
@@ -43,6 +46,63 @@ USA.
 #define ITER_M2 0
 #define ITER_MH 5
 
+/**
+这些宏定义语句的作用是：1.创建一个类型为TYP的全局变量VARNAME，赋值为INIT  2.利用NAME,ParamterChangedFlag e.t.创建一个Parameter对象，然后返回指向
+它的指针，类型转换后(const引用)，插入ParSet(局部静态)中[对于第二点注意如果该全局变量对应有多个名字，则对每个名字都会对应new一个Parameter，返回指针插入ParSet]。
+#define GLOBAL_PARAMETER(TYP,VARNAME,NAME,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,DESCRIPTION,LEVEL,&VARNAME,INIT);//这里的&VARNAME是多出来的
+#define GLOBAL_PARAMETER2(TYP,VARNAME,NAME,NAME2,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,DESCRIPTION,LEVEL,&VARNAME,INIT);
+#define GLOBAL_PARAMETER3(TYP,VARNAME,NAME,NAME2,NAME3,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,DESCRIPTION,LEVEL,&VARNAME,INIT);
+#define GLOBAL_PARAMETER4(TYP,VARNAME,NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,INIT) TYP VARNAME=addGlobalParameter< TYP >(NAME,NAME2,NAME3,NAME4,DESCRIPTION,LEVEL,&VARNAME,INIT);
+**/
+
+/**
+//该函数的作用即是把指向Parameter对象的指针转换为ParPtr类型(通过const引用),然后把该对象(ParPtr)insert进我们的局部静态变量ParSet中,最后返回init值。
+template<class T>const T&addGlobalParameter(const char *name,const char *description,int level,T*adr,const T&init)
+{
+  *adr=init; //这里是通过adr把它所指向的变量值修改，对应上面的宏定义语句，该变量就是VARNAME，即此处相当于VARNAME=init
+  //ParameterChangedFlag一个bool型变量，bool ParameterChangedFlag=0;该定义在Parameter.cpp文件中，而Parameter.h头文件中是extern bool P...
+  getGlobalParSet().insert(new Parameter<T>(name,ParameterChangedFlag,description,*adr,level));对于多name的情况，这里顺延，分别传入不同name
+  return init; //最后这一条语句让该函数在处理返回值上显得前面有点多此一举的样子，但！实则不然，我们先关注Parameter<T>的构造函数，它比_Parameter
+               //多接受一个参数T&_t,注意这里是传递引用！所以我们在该new语句中用*adr(对应我们的VARNAME全局变量)必有深意，不能简单传入init(常量)。
+	       //Attention!我们new的Parameter对象的成员T *t对应的是用来初始化该对象的全局变量！！！，即t是指向我们的全局变量的指针！！！！
+}
+**/
+
+/**
+ParSet&getGlobalParSet()
+{
+  static ParSet x;
+  return x;
+}
+**/
+
+/**
+class ParSet : public set<ParPtr>
+{
+ public:
+  void insert(const ParPtr&x)
+    {
+      if( count(x)!=0 )
+	cerr << "ERROR: element " << x->getString() << " already inserted.\n";
+      set<ParPtr>::insert(x);
+    }
+};
+**/
+
+/**
+const int PARLEV_ITER=1;
+const int PARLEV_OPTHEUR=2;
+const int PARLEV_OUTPUT=3;
+const int PARLEV_SMOOTH=4;
+const int PARLEV_EM=5;
+const int PARLEV_MODELS=6;
+const int PARLEV_SPECIAL=7;
+const int PARLEV_INPUT=8
+还有本main.cpp文件中前面的
+#define ITER_M2 0
+#define ITER_MH 5
+**/
+               // type,variable         ,name               ,name2                  ,name3,description                      ,level       ,init(初始值)
 GLOBAL_PARAMETER3(int,Model1_Iterations,"Model1_Iterations","NO. ITERATIONS MODEL 1","m1","number of iterations for Model 1",PARLEV_ITER,5);
 GLOBAL_PARAMETER3(int,Model2_Iterations,"Model2_Iterations","NO. ITERATIONS MODEL 2","m2","number of iterations for Model 2",PARLEV_ITER,ITER_M2);
 GLOBAL_PARAMETER3(int,HMM_Iterations,"HMM_Iterations","mh","number of iterations for HMM alignment model","mh",              PARLEV_ITER,ITER_MH);
@@ -66,7 +126,8 @@ GLOBAL_PARAMETER3(bool,Peg,"pegging","p","DO PEGGING? (Y/N)","0: no pegging; 1: 
 
 GLOBAL_PARAMETER(short,OldADBACKOFF,"adbackoff","",-1,0);
 GLOBAL_PARAMETER2(unsigned int,MAX_SENTENCE_LENGTH,"ml","MAX SENTENCE LENGTH","maximum sentence length",0,MAX_SENTENCE_LENGTH_ALLOWED);
-
+//const unsigned int MAX_SENTENCE_LENGTH_ALLOWED=101;
+//所这条语句相当于创建了一个全局变量MAX_SENTENCE_LENGTH，赋值为MAX_SENTENCE_LENGTH_ALLOWED
 
 GLOBAL_PARAMETER(short, DeficientDistortionForEmptyWord,"DeficientDistortionForEmptyWord","0: IBM-3/IBM-4 as described in (Brown et al. 1993); 1: distortion model of empty word is deficient; 2: distoriton model of empty word is deficient (differently); setting this parameter also helps to avoid that during IBM-3 and IBM-4 training too many words are aligned with the empty word",PARLEV_MODELS,0);
 short OutputInAachenFormat=0;
@@ -74,6 +135,9 @@ bool Transfer=TRANSFER;
 bool Transfer2to3=0;
 short NoEmptyWord=0;
 bool FEWDUMPS=0;
+//下面是我们新增的全局变量
+bool newflag=0;
+//结束
 GLOBAL_PARAMETER(bool,ONLYALDUMPS,"ONLYALDUMPS","1: do not write any files",PARLEV_OUTPUT,0);
 GLOBAL_PARAMETER(short,CompactAlignmentFormat,"CompactAlignmentFormat","0: detailled alignment format, 1: compact alignment format ",PARLEV_OUTPUT,0);
 GLOBAL_PARAMETER2(bool,NODUMPS,"NODUMPS","NO FILE DUMPS? (Y/N)","1: do not write any files",PARLEV_OUTPUT,0);
@@ -82,7 +146,7 @@ GLOBAL_PARAMETER(WordIndex,MAX_FERTILITY,"MAX_FERTILITY","maximal fertility for 
 
 Vector<map< pair<int,int>,char > > ReferenceAlignment;
 
-
+//There we define some global parameters directly! one bool type, others are string.
 bool useDict = false;
 string CoocurrenceFile;
 string Prefix, LogFilename, OPath, Usage, 
@@ -464,11 +528,90 @@ double ErrorsInAlignment(const map< pair<int,int>,char >&reference,const Vector<
   else
     return 1.0;
 }
-
+/*
+class vcbList{
+ private:
+  Vector<WordEntry> list ;
+  map<string,int> s2i;
+  double total;
+  WordIndex noUniqueTokens ;
+  WordIndex noUniqueTokensInCorpus ;
+  const char* fname ;
+ public:
+  .....
+*/
 
 vcbList *globeTrainVcbList,*globfTrainVcbList;
 
-double StartTraining(int&result)
+
+//我们自己创建的新的StartTesting函数
+double StartTesting(int &result)
+{
+  double errors=0.0;
+  vcbList eTrainVcbList, fTrainVcbList;
+  globeTrainVcbList=&eTrainVcbList;
+  globfTrainVcbList=&fTrainVcbList;
+	
+  eTrainVcbList.setName(SourceVocabFilename.c_str());
+  fTrainVcbList.setName(TargetVocabFilename.c_str());
+  eTrainVcbList.readVocabList();
+  fTrainVcbList.readVocabList();
+	
+  vcbList eTestVcbList(eTrainVcbList) ; //here we know that no need to give testVcb,we use trainVcb to initialize them.
+  vcbList fTestVcbList(fTrainVcbList) ;
+	
+  corpus = new sentenceHandler(CorpusFilename.c_str(), &eTrainVcbList, &fTrainVcbList);
+  if (TestCorpusFilename == "NONE")
+    TestCorpusFilename = "";
+
+  if (TestCorpusFilename != "")
+      testCorpus= new sentenceHandler(TestCorpusFilename.c_str(), &eTestVcbList, &fTestVcbList);
+  useDict=0;
+  dictionary = new Dictionary("");
+  int minIter=0;
+  //下面的宏判断我还不确定在test阶段要怎么修改，暂时先不动它
+  /*
+  #ifdef BINARY_SEARCH_FOR_TTABLE
+  if( CoocurrenceFile.length()==0 )
+    {
+      cerr << "ERROR: NO COOCURRENCE FILE GIVEN!\n";
+      abort();
+    }
+  //ifstream coocs(CoocurrenceFile.c_str());
+  tmodel<COUNT, PROB> tTable(CoocurrenceFile);
+  #else
+  tmodel<COUNT, PROB> tTable;
+  #endif
+  */
+   
+   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+	    *corpus,&testPerp, testCorpus, //这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
+	    trainViterbiPerp, &testViterbiPerp);//trainViterbiPerp,testViterbiPerp同样是前面定义的未初始化的全局变量
+   amodel<PROB>  aTable(false); // typedef float PROB ;
+   amodel<COUNT> aCountTable(false); //typedef float COUNT ;
+   model2 m2(m1,aTable,aCountTable);
+   //对m2进行load_table操作
+   model1 *p1=&m2; 
+   p1->load_table("ttable.file"); //这里故意使用非virtual的函数，其实貌似直接m1.load_table(..)也可以
+   m2.load_table("atable.file");
+   //load结束
+   hmm h(m2);
+   model3 m3(m2);
+	
+   if( HMM_Iterations>0 )
+       m3.setHMM(&h);
+   if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations)
+      {
+	 minIter=m3.viterbi_test(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
+	 errors=m3.errorsAL();
+      }
+   result=minIter;
+   return errors;
+}
+
+
+
+double StartTraining(int&result)//这里result默认是-1
 { 
   double errors=0.0;
   vcbList eTrainVcbList, fTrainVcbList;
@@ -488,7 +631,7 @@ double StartTraining(int&result)
   cout << "Source vocabulary list has " << eTrainVcbList.uniqTokens() << " unique tokens \n";
   cout << "Target vocabulary list has " << fTrainVcbList.uniqTokens() << " unique tokens \n";
   
-  vcbList eTestVcbList(eTrainVcbList) ;
+  vcbList eTestVcbList(eTrainVcbList) ; //here we know that no need to give testVcb,we use trainVcb to initialize them.
   vcbList fTestVcbList(fTrainVcbList) ;
   
   corpus = new sentenceHandler(CorpusFilename.c_str(), &eTrainVcbList, &fTrainVcbList);
@@ -519,7 +662,23 @@ double StartTraining(int&result)
   LAMBDA = double(fTrainVcbList.totalVocab()) / (eTrainVcbList.totalVocab()-corpus->getTotalNoPairs2());
   cout << "= " << LAMBDA << '\n';
   // load dictionary
+/*
+class Dictionary{
+ private:
+  Vector<int> pairs[2];
+  int currval;
+  int currindexmin;
+  int currindexmax;
+  bool dead;
+ public:
+  Dictionary(const char *);
+  bool indict(int, int);
+};
+*/
   Dictionary *dictionary;  
+//  getGlobalParSet().insert(new Parameter<string>("d",ParameterChangedFlag,"dictionary file name",dictionary_Filename,PARLEV_INPUT)); #const int PARLEV_INPUT=8
+//  getGlobalParSet().insert(new Parameter<string>("DICTIONARY",ParameterChangedFlag,"dictionary file name",dictionary_Filename,-1));
+//这里的dictionary_Filename是我们定义的全局变量，它接受我们调用./GIZA++ ...的参数作为值，一般我们不适用dictionary文件，所以它为空，所以useDict为false
   useDict = !dictionary_Filename.empty();
   if (useDict) dictionary = new Dictionary(dictionary_Filename.c_str());
   else dictionary = new Dictionary("");
@@ -535,16 +694,26 @@ double StartTraining(int&result)
 #else
   tmodel<COUNT, PROB> tTable;
 #endif
-
-  model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
-	    *corpus,&testPerp, testCorpus, 
-	    trainViterbiPerp, &testViterbiPerp);
-   amodel<PROB>  aTable(false);
-   amodel<COUNT> aCountTable(false);
+	
+	
+  // 下面这里是我们把训练所需的文件传入模型，然后我们一级一级的使用简单的模型去初始化复杂模型
+  // Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp;
+  // 下面参数中的tTable是在之前定义的：tmodel<COUNT, PROB> tTable; 还没有初始化。当然如果我们有BINARY_SEARCH_FOR_TTABLE的话，
+  // 那么就变成了tmodel<COUNT, PROB> tTable(CoocurrenceFile); 定义且初始化了。
+   model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+	    *corpus,&testPerp, testCorpus, //这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
+	    trainViterbiPerp, &testViterbiPerp);//trainViterbiPerp,testViterbiPerp同样是前面定义的未初始化的全局变量
+   //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
+   amodel<PROB>  aTable(false); // typedef float PROB ;
+   amodel<COUNT> aCountTable(false); //typedef float COUNT ;
    model2 m2(m1,aTable,aCountTable);
    hmm h(m2);
    model3 m3(m2); 
-   if(ReadTablePrefix.length() )
+	
+	
+   //这个if不用看
+   if(ReadTablePrefix.length() ) //这里注意默认我们并不使用ReadTablePrefix参数，所以该全局变量长度为0，所以默认情况下不进入这里的逻辑
+	                         //这里的逻辑和else中的逻辑大同小异
      {
        string number = "final";
        string tfile,afilennfile,dfile,d4file,p0file,afile,nfile; //d5file
@@ -602,12 +771,23 @@ double StartTraining(int&result)
 	   cout << "No corpus exists.\n";
 	 }
     }
-   else 
+   else  //下面的逻辑是StartTraining函数的核心部分,下面的逻辑很清楚，我们使用一写指标(比如Model1_Iterations即model1迭代次数)来判断是否执行对应的训练
+	 /*
+	    model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
+	    *corpus,&testPerp, testCorpus, 
+	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
+            amodel<PROB>  aTable(false);  // typedef float PROB ;
+            amodel<COUNT> aCountTable(false); //typedef float COUNT ;
+            model2 m2(m1,aTable,aCountTable);
+            hmm h(m2);
+            model3 m3(m2); 
+	  */
      {
        // initialize model1
        bool seedModel1 = false ;
        if(Model1_Iterations > 0){
-	 if (t_Filename != "NONE" && t_Filename != ""){
+	 if (t_Filename != "NONE" && t_Filename != ""){  //这里的t_Filename我们只是创建了这个string变量，但没有初始化或者赋值，所以它必为空
+         //所以这个if block并不进入，这里我们的t_Filename在main函数中也没有用到，很可能是这部分代码并没有完成
 	   seedModel1 = true ;
 	   m1.load_table(t_Filename.c_str());
 	 }
@@ -628,7 +808,22 @@ double StartTraining(int&result)
 	     minIter=h.em_with_tricks(HMM_Iterations);
 	     errors=h.errorsAL();
 	   }
-	   
+	   //这里我添加了把ttable和atable打印到文件中的操作
+	   {
+	     h.print_ttables("ttable.file");
+	     h.print_atables("atable.file");
+	   }
+	    	 
+
+/*
+short OutputInAachenFormat=0;
+bool Transfer=TRANSFER;
+bool Transfer2to3=0;
+short NoEmptyWord=0;
+bool FEWDUMPS=0;
+*/
+	   //这里由于Transfer2to3被初始化为0，且在该语句前没有改变值；HMM_Iterations则是我们的初值为ITER_MH(ITER_MH=5)的全局变量
+	   //所以该if block不会进入
 	   if(Transfer2to3||HMM_Iterations==0){
 	     if( HMM_Iterations>0 )
 	       cout << "WARNING: transfor is not needed, as results are overwritten bei transfer from HMM.\n";
@@ -644,6 +839,9 @@ double StartTraining(int&result)
 	     errors=m3.errorsAL();
 	   }
 	   
+		 
+		 
+           //void setHMM(hmm*_h){h=_h;},在这里修改我们的model3的数据成员h(之前我们在构造model3对象时对于除基类model2以外都使用了默认参数，h被初始化为空指针)
 	   if( HMM_Iterations>0 )
 	     m3.setHMM(&h);
 	   if(Model3_Iterations > 0 || Model4_Iterations > 0 || Model5_Iterations || Model6_Iterations
@@ -652,9 +850,15 @@ double StartTraining(int&result)
 	       minIter=m3.viterbi(Model3_Iterations,Model4_Iterations,Model5_Iterations,Model6_Iterations);
 	       errors=m3.errorsAL();
 	     }
-	   if (FEWDUMPS||!NODUMPS)
+		 
+		 
+		 
+	   if (FEWDUMPS||!NODUMPS) //由于FEWDUMPS和NODUMPS的值在执行到这里时都为0(实际上他们的初值都为为0,我们并没有改变它们的值)
+		                   //所以必然会进入该if block
 	     {
 	       printAllTables(eTrainVcbList,eTestVcbList,fTrainVcbList,fTestVcbList,m1 );
+	       //这里我们是把m1的em迭代的结果打印出来，打印到文件，这里共有后缀为:ti.final,actual.ti.final,prep,
+	       //trn.src.vcb,trn.trg.vcb,tst.src.vcb,tst.trg.vcb的文件
 	     }
 	 }
      }
@@ -664,9 +868,28 @@ double StartTraining(int&result)
 
 int main(int argc, char* argv[])
 {
+/*
+这些是我们前面直接定义的全局变量(不是通过那个带参宏定义)
+bool useDict = false;
+string CoocurrenceFile;
+string Prefix, LogFilename, OPath, Usage, 
+  SourceVocabFilename, TargetVocabFilename, CorpusFilename, 
+  TestCorpusFilename, t_Filename, a_Filename, p0_Filename, d_Filename, 
+  n_Filename, dictionary_Filename;
+double LAMBDA=1.09;
+sentenceHandler *testCorpus=0,*corpus=0;
+Perplexity trainPerp, testPerp, trainViterbiPerp, testViterbiPerp ;
+string ReadTablePrefix;
+*/
+
+//我们下面没有采用一开始的宏定义方法，主要是我们对于这些全局变量没有初始值，而且我们下面的全局变量都是string类型的。更深入些讲前面的全局变量是
+//比如模型迭代次数，平滑参数之类的整型值，下面则是对应为命令行参数，文件名之类的string类型值。
 #ifdef BINARY_SEARCH_FOR_TTABLE
   getGlobalParSet().insert(new Parameter<string>("CoocurrenceFile",ParameterChangedFlag,"",CoocurrenceFile,PARLEV_SPECIAL));
 #endif
+  //下面这条是新加的
+  getGlobalParSet().insert(new Parameter<bool>("NEW",ParameterChangedFlag,"flag for new parameter",newflag,-1));
+  //结束
   getGlobalParSet().insert(new Parameter<string>("ReadTablePrefix",ParameterChangedFlag,"optimized",ReadTablePrefix,-1));
   getGlobalParSet().insert(new Parameter<string>("S",ParameterChangedFlag,"source vocabulary file name",SourceVocabFilename,PARLEV_INPUT));
   getGlobalParSet().insert(new Parameter<string>("SOURCE VOCABULARY FILE",ParameterChangedFlag,"source vocabulary file name",SourceVocabFilename,-1));
@@ -697,7 +920,117 @@ int main(int argc, char* argv[])
     }
   
   initGlobals() ;
+/*
+void initGlobals(void)
+{
+  NODUMPS = false ;
+  Prefix = Get_File_Spec();
+  LogFilename= Prefix + ".log";
+  MAX_SENTENCE_LENGTH = MAX_SENTENCE_LENGTH_ALLOWED ;
+}
+*/
   parseArguments(argc, argv);
+/*
+void parseArguments(int argc, char *argv[])
+{
+  int arg = 1;
+  //下面是一个提前的判断
+  if(!strcmp(argv[1], "--h") || !strcmp(argv[1], "--help")){
+    printHelp();
+    exit(0);
+  }
+  if( argv[1][0]=='-' )
+    arg=0;
+  else
+    parseConfigFile(argv[1]);   //这里对应的其实就是对应我们在使用./GIZA++ NAME.gizacfg 的形式
+  //如果不走上面的else分支，这里arg=0，所以++arg为1，而我们的argc也包括执行文件本身的名字在内算一个参数，
+  //所以这里的逻辑就是对每一个参数(除执行文件名外)，进行相应处理
+  while(++arg<argc){ 
+    if( strlen(argv[arg])>2 && argv[arg][0]=='-' && argv[arg][1]=='-' ) //这里对应的是--+的情况
+      {
+	if( !makeSetCommand(argv[arg]+1,"1",getGlobalParSet(),2)) 
+	//这里argv[arg]是一个char *类型，给它加1即是是该指针向后移动移一位，这样就减少了一个'-',但我认为这里应该是+2，否则还是有一轮无用的检测
+	  cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
+      }
+    else if( arg+1<argc && !makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)) //这里对应的是-command的情况
+      cerr << "WARNING: ignoring unrecognized option:  "<< argv[arg] << '\n' ;  
+    else
+      {
+	arg++; //这里对应的arg+1>=argc或makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)返回1的情况，
+	       //假如makeSetCommand(argv[arg],argv[arg+1],getGlobalParSet(),2)成功修改，那么比如 -c corpusname，我们希望跳过corpusname这个参数
+      }
+  }
+  if( OPath.length() )
+    OPath+="/";
+  Prefix = (OPath + Prefix);
+  LogFilename = (OPath + LogFilename);
+  printGIZAPars(cout);
+}
+*/
+	
+/*
+makeSetCommand的作用是用s1在我们的ParSet中去寻找(通过name成员匹配,全部匹配或者起始子串匹配)，如果找到，则用s2去修改对应Parameter对象的(*t)，
+即对应全局变量的值，并返回1，否则返回0.
+bool makeSetCommand(string s1,string s2,const ParSet&pars,int verb=1,int level= -1);
+bool makeSetCommand(string _s1,string s2,const ParSet&parset,int verb,int level) //对于parseArgument中的makeSetCommand这里都是level=-1默认级别
+                                                                                 //verb也都是传入2(>1)
+{
+  ParPtr anf;
+  int anfset=0;
+  string s1=simpleString(_s1);
+  for(ParSet::const_iterator i=parset.begin();i!=parset.end();++i)
+    {
+      if( *(*i)==s1 ) //如果对应找到了,由下面的描述易知这里的有一步多余的simpleString操作。
+      {
+      //这里(*i)首先是解引用iterator，得到是ParPtr[typedef MP<_Parameter> ParPtr; //可以粗略的认为是指向_Parameter对象的“指针”对象]
+      //然后再解引用*(*i)则是想当于得到_Parameter对象本身
+      //这里对于*(*i)即_Parameter对象，它重载了‘==’运算符
+      //bool operator==(const string&s)const
+      //{ return name== simpleString(s); }
+   
+	  if( level==-1 || level==(*i)->getLevel() ) //int getLevel() const { return level;}
+	    (*i)->setParameter(s2,verb);
+	  else if(verb>1) //这里是如果level条件不满足，则再检查verb参数
+	    cerr << "ERROR: Could not set: (A) " << s1 << " " << s2 << " " << level << " " << (*i)->getLevel() << endl;
+	  return 1; //这里在parseArugment中的makeSetCommand的verb传入2，level默认为-1，则如果*(*i)==s1,返回1
+	}
+      else if( (*i)->getString().substr(0,s1.length())==s1 ) //如果*(*i)!=s1，但(*i)的子串有等于s1的，进入这一步
+	{
+	  anf=(*i);anfset++;
+	}
+    }
+  //上面的for循环是在我们的ParSet中寻找我们的s1对应的参数(通过参数名字匹配)
+  if(anfset==1)//如果在(*i)的子串中只匹配到了一次s1，那么也是同样的操作
+    {
+      if( level==-1 || level==anf->getLevel() )
+	anf->setParameter(s2,verb);
+      else if( verb>1 )
+	cerr << "ERROR: Could not set: (B) " << s1 << " " << s2 << " " << level << " " << anf->getLevel() << endl;
+      return 1;
+    }
+  if( anfset>1 )
+    cerr << "ERROR: ambiguous parameter '" << s1 << "'.\n";
+  if( anfset==0 )
+    cerr << "ERROR: parameter '" << s1 << "' does not exist.\n";
+  return 0;
+}
+*/
+/*
+经simpleString处理后的返回的string可以理解为是输入string的小写，去掉特殊字符(这里是除了a-z,0-9之外),这里的c[1]=0的意思是把每次的char数组变为一个char字符串，即末尾为空字符
+string simpleString(const string s)
+{
+  string k;
+  for(unsigned int i=0;i<s.length();++i)
+    {
+      char c[2];
+      c[0]=tolower(s[i]);
+      c[1]=0;
+      if( (c[0]>='a'&&c[0]<='z')||(c[0]>='0'&&c[0]<='9') )
+	k += c;
+    }
+  return k;
+}
+*/
   
   if (Log)
     logmsg.open(LogFilename.c_str(), ios::out);
@@ -709,7 +1042,14 @@ int main(int argc, char* argv[])
     cerr << "WARNING: Parameter -adBackOff does not exist further; use CompactADTable instead.\n";
   if( MAX_SENTENCE_LENGTH > MAX_SENTENCE_LENGTH_ALLOWED )
     cerr << "ERROR: MAX_SENTENCE_LENGTH is too big " << MAX_SENTENCE_LENGTH << " > " << MAX_SENTENCE_LENGTH_ALLOWED << '\n';
-    errors=StartTraining(a);
+  if(newflag==0)
+  {
+    errors=StartTraining(a); //这里原来有一个缩进，很迷惑(如果你也熟悉python编程的话)，所以我把它去掉了
+  }
+  else
+  {
+    errors=StartTesting(a);
+  }	
   fn = time(NULL);    // finish time
   cout << '\n' << "Entire Training took: " << difftime(fn, st1) << " seconds\n";
   cout << "Program Finished at: "<< ctime(&fn) << '\n';

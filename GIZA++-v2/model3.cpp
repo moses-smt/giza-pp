@@ -38,11 +38,19 @@ GLOBAL_PARAMETER4(int,Model3_Dump_Freq,"MODEL 345 DUMP FREQUENCY","MODEL 3 DUMP 
 extern int Transfer_Dump_Freq;
 
 model3::model3(model2& m2) : 
-  model2(m2),dTable(true), dCountTable(true), 
+  model2(m2),dTable(true), dCountTable(true), //dTable,dCountTable都是amodel对象
+/*
+    amodel(bool flag)
+    : a(MAX_SENTENCE_LENGTH+1,0.0), is_distortion(flag), MaxSentLength(MAX_SENTENCE_LENGTH)
+    {}; 
+*/
   nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
   nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0)
 {}
 
+
+
+//看起来作者已经给我们准备好了test所需的函数，现在我们的工作就更简单了。
 void model3::load_tables(const char *nfile, const char *dfile, const char *p0file){
   cout << "Model3: loading n, d, p0 tables \n";
 
@@ -60,7 +68,11 @@ void model3::load_tables(const char *nfile, const char *dfile, const char *p0fil
     }
   cout << "p0 is: " << p0 << " p1:" << p1 << '\n';
 }
+
+
+
   
+
 model3::~model3()
 {
   dTable.clear();
@@ -69,7 +81,7 @@ model3::~model3()
   nCountTable.clear();
 }
 
-
+//由于我们都是利用之前的model1,model2的结果，并不是从model3开始，所以model3::em该函数并没有使用
 void model3::em(int noIterations, sentenceHandler& sHandler1)
 {
 
@@ -255,7 +267,8 @@ void simpleModel3Test()
 
 extern short DoViterbiTraining;
 
-int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterationsModel5,int noIterationsModel6)
+
+int model3::viterbi_test(int noIterationsModel3,int noIterationsModel4,int noIterationsModel5,int noIterationsModel6)
 {
   double minErrors=1.0;int minIter=0;
   d4model d4m(MAX_SENTENCE_LENGTH);
@@ -275,6 +288,233 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
   for(int i=0;i<noIterationsModel4;++i) trainingString+='4';
   for(int i=0;i<noIterationsModel5;++i) trainingString+='5';
   for(int i=0;i<noIterationsModel6;++i) trainingString+='6';
+  for(unsigned int it=1; it < trainingString.length(); it++){
+    bool final=0;
+    if( it==trainingString.length()-1 )//这里的意思是当我们走到最后一次循环时，我们把final置为1，当然我们创建final这个变量就是这个意思
+      final=1;
+    string modelName;
+    char fromModel=trainingString[it-1],toModel=trainingString[it];
+    if(fromModel==toModel)
+      modelName=string("Model")+fromModel;
+    else
+      modelName=string("T")+fromModel+"To"+toModel;
+    it_st = time(NULL);
+    dump_files = (final || ((Model3_Dump_Freq != 0) && ((it % Model3_Dump_Freq) == 0))) && !NODUMPS ;
+    string d4file2;
+    {
+      // set up the names of the files where the tables will be printed 
+      int n = it;
+      number = "";
+      do{
+	//mj changed next line
+	number.insert((size_t) 0, 1, (char)(n % 10 + '0'));
+        } while((n /= 10) > 0);
+      if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前不到最后一个循环时我们的number是经过上面的do while循环的值
+	number="final";  
+      string tmp=".new";
+      tfile = Prefix + tmp+".t3." + number ;
+      tfile_actual = Prefix + tmp+".actual.t3." + number ;
+      afile = Prefix + tmp+".a3." + number ;
+      nfile = Prefix + tmp+".n3." + number ;
+      nfile_actual = Prefix + tmp+".actual.n3." + number ;
+      dfile = Prefix + tmp+".d3." + number ;
+      d4file = Prefix + tmp+".d4." + number ;
+      d4file2 = Prefix + tmp+".D4." + number ;
+      d5file = Prefix + tmp+".d5." + number ;
+      alignfile = Prefix + tmp+".A3." + number ;
+      test_alignfile = Prefix + tmp+".tst.A3." + number ;
+      p0file = Prefix + tmp+".p0_3." + number ;
+    }
+	  
+    dCountTable.clear();
+    aCountTable.clear();
+    // void initAL(){ALmissingVALI=ALtoomuchVALI=ALeventsMissingVALI=ALeventsToomuchVALI=ALmissingTEST=\
+    //ALtoomuchTEST=ALeventsMissingTEST=ALeventsToomuchTEST=ALmissing=ALtoomuch=ALeventsMissing=ALeventsToomuch=0;}
+    //该initAL函数使用的是model1.h中定义的版本，在model2和model3中我们没有覆盖定义它
+    initAL();
+    nCountTable.clear();
+    d4m.clear();
+    p0_count = p1_count = 0;
+	  
+	  
+    #define TEST_ARGS_NEW  *testPerp, *testViterbiPerp, *testHandler, dump_files, test_alignfile.c_str(),false, modelName,final
+    switch( toModel )
+      {
+      case '3':
+	switch(fromModel )
+	  {
+	  case 'H':
+            //注意viterbi_loop_with_tricks函数定义不在model3.h中，而是在model3_viterbi_with_tricks.cpp中。
+	    if (testPerp && testHandler)
+	      viterbi_loop_with_tricks<transpair_modelhmm,const hmm>(TEST_ARGS_NEW, h,(void*)0);
+	    break;
+	  case '3':
+	    if (testPerp && testHandler)
+	      viterbi_loop_with_tricks<transpair_model3>( TEST_ARGS_NEW, (void*)0,(void*)0);
+	    break;
+	  default: abort();
+	  }
+	break;
+      case '4':
+	{
+	  switch(fromModel)
+	    {
+	    case 'H':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_modelhmm,const hmm,d4model>(TEST_ARGS_NEW, h,&d4m);
+	      break;
+	    case '3':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_model3, void,d4model>( TEST_ARGS_NEW , (void*)0,&d4m);	
+	      break;
+	    case '4':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_model4, d4model,d4model>( TEST_ARGS_NEW, &d4m,&d4m);
+	      break;
+	    default: abort();
+	    }
+	  d4m.normalizeTable();
+	  if( dump_files )
+	    d4m.printProbTable(d4file.c_str(),d4file2.c_str());
+	}
+	break;
+      case '5':
+	{
+	  switch(fromModel)
+	    {
+	    case 'H':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_modelhmm,const hmm,d5model>(TEST_ARGS_NEW, h,&d5m);
+	      break;
+	    case '3':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_model3, void,d5model>( TEST_ARGS_NEW, (void*)0,&d5m);	
+	      break;
+	    case '4':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_model4, d4model,d5model>( TEST_ARGS_NEW, &d4m,&d5m);	
+	      break;
+	    case '5':
+	      if (testPerp && testHandler)
+		viterbi_loop_with_tricks<transpair_model5, d5model, d5model>( TEST_ARGS_NEW, &d5m,&d5m);	
+	      break;
+	    default: abort();
+	    }
+	  d5m.d4m.normalizeTable();
+	  if( dump_files )
+	    d5m.d4m.printProbTable(d4file.c_str(),d4file2.c_str());
+	  d5m.normalizeTable();
+	  if( dump_files )
+	    {
+	      ofstream d5output(d5file.c_str());
+	      d5output << d5m;
+	    }
+	}
+      break;
+      default: abort();
+      }
+	  
+      if( errorsAL()<minErrors )
+      {
+	minErrors=errorsAL();
+        minIter=it;
+      }
+	  
+    // now normalize count tables 
+    if( dump_files&&OutputInAachenFormat==1 ) //OutputInAachenFormat是我们main函数中的全局变量，初始值为0，所以这个printCountTable不执行
+      tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
+    tTable.normalizeTable(Elist, Flist);
+    aCountTable.normalize(aTable);
+    dCountTable.normalize(dTable);
+    nCountTable.normalize(nTable,&Elist.getVocabList());
+    
+    // normalize p1 & p0 
+    cout << "p0_count is " << p0_count << " and p1 is " << p1_count << "; "; 
+      if(P0!=-1.0)//在前面的viterbi_loop_with_tricks中p0,p1的值不断被修改
+      {
+	p0 = P0;
+	p1 = 1-P0;
+      }
+    else {
+      if (p1_count + p0_count != 0){
+	p1 = p1_count / ( p1_count + p0_count ) ;
+	p0 = 1 - p1 ;
+      }
+      else {
+	p1 = p0 = 0 ;
+	cerr << "ERROR: p0_count+p1_count is zero!!!\n";
+      }
+    }
+
+    //把我们的结果输出到文件中
+    if (dump_files)//当执行到该for循环的最后一轮时，dump_files为true，则下面的block会执行
+      {
+	if( OutputInAachenFormat==0 ) //OutputInAachenFormat是main.cpp中的全局变量，初始值为0，则该printProbTable会执行
+	  tTable.printProbTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),OutputInAachenFormat);
+	aTable.printTable(afile.c_str());
+	dTable.printTable(dfile.c_str());
+	nTable.printNTable(Elist.uniqTokens(), nfile.c_str(), Elist.getVocabList(), OutputInAachenFormat);
+	ofstream of(p0file.c_str());
+	of << p0;
+	of.close();
+      }
+      
+    it_fn = time(NULL) ;
+    cout << "\n" << modelName << " Viterbi Iteration : "<<it<<  " took: " <<
+      difftime(it_fn, it_st) << " seconds\n";
+  } /* of iterations */  //ok! you find it ! The end of the brace of the for loop .
+	
+	
+  fn = time(NULL);
+  cout << trainingString <<" Training Finished at: " << ctime(&fn) << "\n";
+  cout << "\n" << "Entire Viterbi "<<trainingString<<" Training took: " << difftime(fn, st) << " seconds\n";
+  cout << "==========================================================\n";
+  //通过if调整minIter的值(如果满足条件)
+  if( noIterationsModel4||noIterationsModel5 )
+    minIter-=noIterationsModel3;
+  //通过if调整minIter的值(如果满足条件)
+  if( noIterationsModel5 )
+    minIter-=noIterationsModel4;
+  return minIter;
+}
+
+
+int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterationsModel5,int noIterationsModel6)
+{
+  //初始化minErrors和minIter的值分别为1.0和0
+  double minErrors=1.0;int minIter=0;
+  d4model d4m(MAX_SENTENCE_LENGTH);
+  d4m.makeWordClasses(Elist,Flist,SourceVocabFilename+".classes",TargetVocabFilename+".classes");
+  d5model d5m(d4m);
+  d5m.makeWordClasses(Elist,Flist,SourceVocabFilename+".classes",TargetVocabFilename+".classes");
+  time_t it_st, st, it_fn, fn;
+  bool dump_files = false ;
+  string tfile, tfile_actual, dfile, afile, nfile, nfile_actual, p0file, alignfile, number, test_alignfile, d4file,d5file,zeroFertFile;
+  st = time(NULL);
+  sHandler1.rewind();
+  if (testPerp && testHandler)
+    (*testHandler).rewind();
+/*
+model3::model3(model2& m2) : 
+  model2(m2),dTable(true), dCountTable(true), 
+  nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
+  nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0) 这里h是hmm *类型，hmm是一个类
+{}
+*/
+  string trainingString;
+/*
+model3::model3(model2& m2) : 
+  model2(m2),dTable(true), dCountTable(true), 
+  nTable(m2.getNoEnglishWords()+1, MAX_FERTILITY), 
+  nCountTable(m2.getNoEnglishWords()+1, MAX_FERTILITY),h(0)
+{}
+*/
+  trainingString+=(h?'H':'3');  //这里我们一开始把h初始化为指向0(NULL)的指针，所以这里等价于trainingString+='3'
+  //这里的noIterationModel[3,4,5,6]对应的是我们的全局变量Model[3,4,5,6]_Iterations，即迭代次数，易知下面的逻辑是迭代几次，concatenate几个'[3,4,5,6]'
+  for(int i=0;i<noIterationsModel3;++i) trainingString+='3';
+  for(int i=0;i<noIterationsModel4;++i) trainingString+='4';
+  for(int i=0;i<noIterationsModel5;++i) trainingString+='5';
+  for(int i=0;i<noIterationsModel6;++i) trainingString+='6';
   
   cout << "\n==========================================================\n";
   cout << "Starting "<<trainingString<<":  Viterbi Training";
@@ -283,9 +523,11 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
     logmsg << "Starting "<<trainingString<<":  Viterbi Training";
   }
   cout << "\n "<<trainingString<<" Training Started at: "<< ctime(&st) << '\n';
-  for(unsigned int it=1; it < trainingString.length(); it++){
-  bool final=0;
-    if( it==trainingString.length()-1 )
+  //Take care of the for loop, the block of it if fucking long! 
+  for(unsigned int it=1; it < trainingString.length(); it++){ //Here's the start
+  //很明显这里的it是循环变量
+    bool final=0;
+    if( it==trainingString.length()-1 )//这里的意思是当我们走到最后一次循环时，我们把final置为1，当然我们创建final这个变量就是这个意思
       final=1;
     string modelName;
     char fromModel=trainingString[it-1],toModel=trainingString[it];
@@ -297,7 +539,10 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
     cout <<"\n---------------------\n"<<modelName<<": Iteration " << it<<'\n';
     if (Log) 
       logmsg <<"\n---------------------\n"<<modelName<<": Iteration " << it<<'\n';
+    //这里的dump_files是我们之前在该函数中定义的bool类型变量，我们初始化它为false，不过在该语句前我们并没有使用该变量，所以看来只需定义，无需初始化
+    //这里的NODUMPS是我们main.cpp的全局变量，它的初值为0，description是 do not write any file
     dump_files = (final || ((Model3_Dump_Freq != 0) && ((it % Model3_Dump_Freq) == 0))) && !NODUMPS ;
+    //可见只有当final=true时dump_files才为true，即当进行到最后一轮循环时dump_files为true
     string d4file2;
     {
       // set up the names of the files where the tables will be printed 
@@ -307,8 +552,10 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
 	//mj changed next line
 	number.insert((size_t) 0, 1, (char)(n % 10 + '0'));
       } while((n /= 10) > 0);
-      if( final )
-	number="final";
+      if( final )//当我们走到最后一个循环时才执行下面这条语句，也就是number="final";之前不到最后一个循环时我们的number是经过上面的do while循环的值
+	number="final"; 
+//string tfile, tfile_actual, dfile, afile, nfile, nfile_actual, p0file, alignfile, number, test_alignfile, d4file,d5file,zeroFertFile;
+//下面都是该函数前面定义的string变量
       tfile = Prefix + ".t3." + number ;
       tfile_actual = Prefix + ".actual.t3." + number ;
       afile = Prefix + ".a3." + number ;
@@ -326,23 +573,28 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
     //    tCountTable.clear();
     dCountTable.clear();
     aCountTable.clear();
+    // void initAL(){ALmissingVALI=ALtoomuchVALI=ALeventsMissingVALI=ALeventsToomuchVALI=ALmissingTEST=\
+    //ALtoomuchTEST=ALeventsMissingTEST=ALeventsToomuchTEST=ALmissing=ALtoomuch=ALeventsMissing=ALeventsToomuch=0;}
+    //该initAL函数使用的是model1.h中定义的版本，在model2和model3中我们没有覆盖定义它
     initAL();
     nCountTable.clear();
     d4m.clear();
     p0_count = p1_count = 0 ;
 
-#ifdef TRICKY_IBM3_TRAINING
+#ifdef TRICKY_IBM3_TRAINING  //这里必然会进入，因为在前面已经 #define TRICKY_IBM3_TRAINING了。
     
 #define TRAIN_ARGS perp,      trainViterbiPerp, sHandler1,    dump_files, alignfile.c_str(),     true,  modelName,final
 #define TEST_ARGS  *testPerp, *testViterbiPerp, *testHandler, dump_files, test_alignfile.c_str(),false, modelName,final
 
-
+// char fromModel=trainingString[it-1];
+// char toModel=trainingString[it];
     switch( toModel )
       {
       case '3':
 	switch(fromModel )
 	  {
 	  case 'H':
+            //注意viterbi_loop_with_tricks函数定义不在model3.h中，而是在model3_viterbi_with_tricks.cpp中。
 	    viterbi_loop_with_tricks  <transpair_modelhmm,const hmm>(TRAIN_ARGS,h,(void*)0);
 	    if (testPerp && testHandler)
 	      viterbi_loop_with_tricks<transpair_modelhmm,const hmm>(TEST_ARGS, h,(void*)0);
@@ -428,15 +680,18 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
       viterbi_loop(*testPerp, *testViterbiPerp, *testHandler, 
 		   dump_files, test_alignfile.c_str(), false, model);
  
-#endif		 
+#endif	
+     
+    //通过这个if来改变minErros和minIter的值(满足条件的情况下)
     if( errorsAL()<minErrors )
       {
 	minErrors=errorsAL();
         minIter=it;
       }
 
+	  
     // now normalize count tables 
-    if( dump_files&&OutputInAachenFormat==1 )
+    if( dump_files&&OutputInAachenFormat==1 ) //OutputInAachenFormat是我们main函数中的全局变量，初始值为0，所以这个printCountTable不执行
       tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
     tTable.normalizeTable(Elist, Flist);
     aCountTable.normalize(aTable);
@@ -448,9 +703,8 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
     //tTable.getHash().size() << " entries.\n";
     
     // normalize p1 & p0 
-    
    cout << "p0_count is " << p0_count << " and p1 is " << p1_count << "; "; 
-      if(P0!=-1.0)
+      if(P0!=-1.0)//在前面的viterbi_loop_with_tricks中p0,p1的值不断被修改
       {
 	p0 = P0;
 	p1 = 1-P0;
@@ -479,9 +733,11 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
       cout << modelName << ":  ("<<it<<")TEST VITERBI CROSS-ENTROPY " << (*testViterbiPerp).cross_entropy()
 	   << " PERPLEXITY " << (*testViterbiPerp).perplexity() << " Sum: " << (*testViterbiPerp).getSum() <<
 	" wc: " << (*testViterbiPerp).word_count() << '\n';
-    if (dump_files)
+	
+    //把我们的结果输出到文件中
+    if (dump_files)//当执行到该for循环的最后一轮时，dump_files为true，则下面的block会执行
       {
-	if( OutputInAachenFormat==0 )
+	if( OutputInAachenFormat==0 ) //OutputInAachenFormat是main.cpp中的全局变量，初始值为0，则该printProbTable会执行
 	  tTable.printProbTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),OutputInAachenFormat);
 	aTable.printTable(afile.c_str());
 	dTable.printTable(dfile.c_str());
@@ -490,17 +746,21 @@ int model3::viterbi(int noIterationsModel3, int noIterationsModel4,int noIterati
 	of << p0;
 	of.close();
       }
-    
+      
     it_fn = time(NULL) ;
     cout << "\n" << modelName << " Viterbi Iteration : "<<it<<  " took: " <<
       difftime(it_fn, it_st) << " seconds\n";
-  } /* of iterations */
+  } /* of iterations */  //ok! you find it ! The end of the brace of the for loop .
+	
+	
   fn = time(NULL);
   cout << trainingString <<" Training Finished at: " << ctime(&fn) << "\n";
   cout << "\n" << "Entire Viterbi "<<trainingString<<" Training took: " << difftime(fn, st) << " seconds\n";
   cout << "==========================================================\n";
+  //通过if调整minIter的值(如果满足条件)
   if( noIterationsModel4||noIterationsModel5 )
     minIter-=noIterationsModel3;
+  //通过if调整minIter的值(如果满足条件)
   if( noIterationsModel5 )
     minIter-=noIterationsModel4;
   return minIter;

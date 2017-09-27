@@ -72,7 +72,9 @@ int model2::em_with_tricks(int noIterations)
     pair_no = 0;
     it_st = time(NULL) ;
     cout << endl << "-----------\n" << modelName << ": Iteration " << it << '\n';
-    dump_files = (Model2_Dump_Freq != 0) && ((it % Model2_Dump_Freq) == 0) && !NODUMPS;
+    //GLOBAL_PARAMETER2(int,Model2_Dump_Freq,"MODEL 2 DUMP FREQUENCY","t2","dump frequency of Model 2",PARLEV_OUTPUT,0);
+    //很明显在该文件(model2.cpp)中声明了一个初始值为0的全局变量Model2_Dump_Freq，并把它和它的一些信息插入到我们的全局ParSet中
+    dump_files = (Model2_Dump_Freq != 0) && ((it % Model2_Dump_Freq) == 0) && !NODUMPS; //所以这里注定是dump_files为false
     number = "";
     int n = it;
     do{
@@ -84,14 +86,15 @@ int model2::em_with_tricks(int noIterations)
     test_alignfile = Prefix + ".tst.A" + shortModelName + "." + number ;
     aCountTable.clear();
     initAL();
-    em_loop(perp, sHandler1, dump_files, alignfile.c_str(), trainViterbiPerp, false);
+    em_loop(perp, sHandler1, dump_files, alignfile.c_str(), trainViterbiPerp, false);//这里dump_files为false,意味着不把table写入alignfile中
     if( errorsAL()<minErrors )
       {
 	minErrors=errorsAL();
         minIter=it;
       }
-    if (testPerp && testHandler)
-      em_loop(*testPerp, *testHandler, dump_files, test_alignfile.c_str(), *testViterbiPerp, true); 
+    //在main.cpp中：这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
+    if (testPerp && testHandler)//这里的testPerp,testHandler都是基类report_info中数据成员，都是指针类型，所以可以进行逻辑判断
+      em_loop(*testPerp, *testHandler, dump_files, test_alignfile.c_str(), *testViterbiPerp, true); //这里dump_files为false,意味着不把table写入alignfile中
     if (dump_files&&OutputInAachenFormat==1)
       tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
     tTable.normalizeTable(Elist, Flist);
@@ -150,7 +153,7 @@ void model2::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
   viterbi_perp.clear();
   ofstream of2;
   // for each sentence pair in the corpus
-  if (dump_alignment||FEWDUMPS )
+  if (dump_alignment||FEWDUMPS ) //这里的dump_alignment形参传入的是我的em_with_tricks函数中的dump_files实参，一直都是false，而且FEWDUMPS也是为0的，所以下面的if内容不执行
     of2.open(alignfile);
   sentPair sent ;
 
@@ -215,6 +218,7 @@ void model2::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
     sHandler1.setProbOfSentence(sent,cross_entropy);
     perp.addFactor(cross_entropy, so, l, m,1);
     viterbi_perp.addFactor(log(viterbi_score), so, l, m,1);
+    //同理这里的if条件也是不满足的
     if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000) )
       printAlignToFile(es, fs, Elist.getVocabList(), Flist.getVocabList(), of2, viterbi_alignment, sent.sentenceNo, viterbi_score);
     addAL(viterbi_alignment,sent.sentenceNo,l);

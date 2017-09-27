@@ -79,7 +79,8 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
     pair_no = 0 ;
     it_st = time(NULL);
     cout <<  "-----------\n" << modelName << ": Iteration " << it << '\n';
-    dump_files = (Model1_Dump_Freq != 0) &&  ((it % Model1_Dump_Freq)  == 0) && !NODUMPS ;
+    //GLOBAL_PARAMETER2(int,Model1_Dump_Freq,"MODEL 1 DUMP FREQUENCY","t1","dump frequency of Model 1",PARLEV_OUTPUT,0);
+    dump_files = (Model1_Dump_Freq != 0) &&  ((it % Model1_Dump_Freq)  == 0) && !NODUMPS ; //易见这里Model1_Dump_Freq值为0，所以dump_files也为0，即使false
     number = "";
     int n = it;
     do{
@@ -89,9 +90,9 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
     alignfile = Prefix + ".A" + shortModelName + "." + number ;
     test_alignfile = Prefix +".tst.A" + shortModelName + "." + number ;
     initAL();
-    em_loop(it,perp, sHandler1, seedModel1, dump_files, alignfile.c_str(), dictionary, useDict, trainViterbiPerp); 
+    em_loop(it,perp, sHandler1, seedModel1, dump_files, alignfile.c_str(), dictionary, useDict, trainViterbiPerp); //dump_files为false，即不会把对应的table写到文件中去
     if (testPerp && testHandler) // calculate test perplexity
-      em_loop(it,*testPerp, *testHandler, seedModel1, dump_files, test_alignfile.c_str(), dictionary, useDict, *testViterbiPerp, true); 
+      em_loop(it,*testPerp, *testHandler, seedModel1, dump_files, test_alignfile.c_str(), dictionary, useDict, *testViterbiPerp, true);//dump_files为false 
     if( errorsAL()<minErrors )
       {
 	minErrors=errorsAL();

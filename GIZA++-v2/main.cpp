@@ -631,7 +631,8 @@ class Dictionary{
   // 那么就变成了tmodel<COUNT, PROB> tTable(CoocurrenceFile); 定义且初始化了。
    model1 m1(CorpusFilename.c_str(), eTrainVcbList, fTrainVcbList,tTable,trainPerp, 
 	    *corpus,&testPerp, testCorpus, //这里的testPerp是前面定义的全局变量所以它必不为NULL,而testCorpus则取决于我们在./GIZA++时是否传入-tc参数。
-	    trainViterbiPerp, &testViterbiPerp); //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
+	    trainViterbiPerp, &testViterbiPerp);//trainViterbiPerp,testViterbiPerp同样是前面定义的未初始化的全局变量
+   //这里传入的是*corpus和testcorpus,一个sentenceHandler一个是指向sentenceHandler的指针。
    amodel<PROB>  aTable(false); // typedef float PROB ;
    amodel<COUNT> aCountTable(false); //typedef float COUNT ;
    model2 m2(m1,aTable,aCountTable);

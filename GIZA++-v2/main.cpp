@@ -746,6 +746,13 @@ class Dictionary{
 	     minIter=h.em_with_tricks(HMM_Iterations);
 	     errors=h.errorsAL();
 	   }
+	   //这里我添加了把ttable和atable打印到文件中的操作
+	   {
+	     h.print_ttables("ttable.file");
+	     h.print_atables("atable.file");
+	   }
+	    	 
+
 /*
 short OutputInAachenFormat=0;
 bool Transfer=TRANSFER;

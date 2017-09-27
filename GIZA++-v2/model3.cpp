@@ -488,7 +488,7 @@ model3::model3(model2& m2) :
     // normalize p1 & p0 
     
    cout << "p0_count is " << p0_count << " and p1 is " << p1_count << "; "; 
-      if(P0!=-1.0)
+      if(P0!=-1.0)//在前面的viterbi_loop_with_tricks中p0,p1的值不断被修改
       {
 	p0 = P0;
 	p1 = 1-P0;

@@ -92,7 +92,7 @@ int model2::em_with_tricks(int noIterations)
 	minErrors=errorsAL();
         minIter=it;
       }
-    if (testPerp && testHandler)
+    if (testPerp && testHandler)//这里的testPerp,testHandler都是基类report_info中数据成员，都是指针类型，所以可以进行逻辑判断
       em_loop(*testPerp, *testHandler, dump_files, test_alignfile.c_str(), *testViterbiPerp, true); //这里dump_files为false,意味着不把table写入alignfile中
     if (dump_files&&OutputInAachenFormat==1)
       tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
@@ -152,7 +152,7 @@ void model2::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
   viterbi_perp.clear();
   ofstream of2;
   // for each sentence pair in the corpus
-  if (dump_alignment||FEWDUMPS ) //这里的dump_alignment形参传入的是我的em函数中的dump_files实参，一直都是false，而且FEWDUMPS也是为0的，所以下面的if内容不执行
+  if (dump_alignment||FEWDUMPS ) //这里的dump_alignment形参传入的是我的em_with_tricks函数中的dump_files实参，一直都是false，而且FEWDUMPS也是为0的，所以下面的if内容不执行
     of2.open(alignfile);
   sentPair sent ;
 

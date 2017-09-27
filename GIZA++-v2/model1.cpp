@@ -149,7 +149,7 @@ void model1::em_loop(int it,Perplexity& perp, sentenceHandler& sHandler1, bool s
   viterbi_perp.clear();
   ofstream of2;
   // for each sentence pair in the corpus
-  if (dump_alignment||FEWDUMPS)
+  if (dump_alignment||FEWDUMPS)//这里的dump_alignment形参即是我们的em_with_tricks中dump_files参数，值一直都是false，同时FEWDUMPS也是0，所以该if不执行
     of2.open(alignfile);
   PROB uniform = 1.0/noFrenchWords ;
   sentPair sent ;
@@ -272,7 +272,7 @@ void model1::em_loop(int it,Perplexity& perp, sentenceHandler& sHandler1, bool s
     //cerr << sent << "CE: " << cross_entropy << " " << so << endl;
     perp.addFactor(cross_entropy-m*log(l+1.0), so, l, m,1);
     viterbi_perp.addFactor(log(viterbi_score)-m*log(l+1.0), so, l, m,1);
-    if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000))
+    if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000)) //同理，这里dump_alignment和FEWDUMPS是false，所以该if的block不执行
       printAlignToFile(es, fs, evlist, fvlist, of2, viterbi_alignment, sent.sentenceNo, viterbi_score);
     addAL(viterbi_alignment,sent.sentenceNo,l);
     pair_no++;

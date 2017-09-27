@@ -469,7 +469,8 @@ void model3::viterbi_loop_with_tricks(Perplexity& perp, Perplexity& viterbiPerp,
 
       LogProb align_total_count=0;
       alignment viterbi2alignment(l,m);
-      MODEL_TYPE ef(es,fs,tTable,aTable,dTable,nTable,p1,p0,dm_in);
+      MODEL_TYPE ef(es,fs,tTable,aTable,dTable,nTable,p1,p0,dm_in);//这里的p0,p1是我们的model3的数据成员，不过还没有初始化，这里我们
+      //将对它们的值进行赋予(修改)
       viterbi_model2(ef,viterbi2alignment,pair_no-1);
       Vector<pair<MoveSwapMatrix<MODEL_TYPE>*,LogProb> >setOfGoodCenters(1);
       set<alignment> alignments;

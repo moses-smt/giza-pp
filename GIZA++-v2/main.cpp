@@ -1042,7 +1042,14 @@ string simpleString(const string s)
     cerr << "WARNING: Parameter -adBackOff does not exist further; use CompactADTable instead.\n";
   if( MAX_SENTENCE_LENGTH > MAX_SENTENCE_LENGTH_ALLOWED )
     cerr << "ERROR: MAX_SENTENCE_LENGTH is too big " << MAX_SENTENCE_LENGTH << " > " << MAX_SENTENCE_LENGTH_ALLOWED << '\n';
-  errors=StartTraining(a); //这里原来有一个缩进，很迷惑(如果你也熟悉python编程的话)，所以我把它去掉了
+  if(newflag==0)
+  {
+    errors=StartTraining(a); //这里原来有一个缩进，很迷惑(如果你也熟悉python编程的话)，所以我把它去掉了
+  }
+  else
+  {
+    errors=StartTesting(a);
+  }	
   fn = time(NULL);    // finish time
   cout << '\n' << "Entire Training took: " << difftime(fn, st1) << " seconds\n";
   cout << "Program Finished at: "<< ctime(&fn) << '\n';

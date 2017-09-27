@@ -470,7 +470,7 @@ model3::model3(model2& m2) :
       }
 
     // now normalize count tables 
-    if( dump_files&&OutputInAachenFormat==1 )
+    if( dump_files&&OutputInAachenFormat==1 ) //OutputInAachenFormat是我们main函数中的全局变量，初始值为0，所以这个printCountTable不执行
       tTable.printCountTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),1);
     tTable.normalizeTable(Elist, Flist);
     aCountTable.normalize(aTable);
@@ -513,9 +513,9 @@ model3::model3(model2& m2) :
       cout << modelName << ":  ("<<it<<")TEST VITERBI CROSS-ENTROPY " << (*testViterbiPerp).cross_entropy()
 	   << " PERPLEXITY " << (*testViterbiPerp).perplexity() << " Sum: " << (*testViterbiPerp).getSum() <<
 	" wc: " << (*testViterbiPerp).word_count() << '\n';
-    if (dump_files)
+    if (dump_files)//当执行到该for循环的最后一轮时，dump_files为true，则下面的block会执行
       {
-	if( OutputInAachenFormat==0 )
+	if( OutputInAachenFormat==0 ) //OutputInAachenFormat是main.cpp中的全局变量，初始值为0，则该printProbTable会执行
 	  tTable.printProbTable(tfile.c_str(),Elist.getVocabList(),Flist.getVocabList(),OutputInAachenFormat);
 	aTable.printTable(afile.c_str());
 	dTable.printTable(dfile.c_str());

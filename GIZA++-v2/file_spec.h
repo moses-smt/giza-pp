@@ -34,20 +34,19 @@ USA.
    editions for C++ and formatting by Noah A. Smith, 9 July 1999 */
 
 char *Get_File_Spec (){
-  struct tm *local;
-  time_t t;
-  const char *user;
-  char time_stmp[19];
-  char *file_spec = 0;
-  
-  t = time(NULL);
-  local = localtime(&t);
-  
-  sprintf(time_stmp, "%02d-%02d-%02d.%02d%02d%02d.", local->tm_year, 
-	  (local->tm_mon + 1), local->tm_mday, local->tm_hour, 
-	  local->tm_min, local->tm_sec);
-  user = getenv("USER");
-  if (!user) { user = "no_user"; }
+  	struct tm *local;
+    time_t t;
+    char *user;
+    char time_stmp[19];							
+    char *file_spec = 0;
+
+    t = time(NULL);
+    local = localtime(&t);
+
+    sprintf(time_stmp, "%04d-%02d-%02d.%02d%02d%02d.", 1900 +  local->tm_year,   
+   		(local->tm_mon + 1), local->tm_mday, local->tm_hour, 
+   	  	local->tm_min, local->tm_sec);
+    user = getenv("USER");
 
   file_spec = (char *)malloc(sizeof(char) * 
 			     (strlen(time_stmp) + strlen(user) + 1));

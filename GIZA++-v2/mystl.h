@@ -25,9 +25,13 @@ using namespace _STL;
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
 #else
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
 #include <tr1/unordered_map>
-#define hash_map unordered_map
 using namespace std::tr1;
+#else
+#include <unordered_map>
+#endif
+#define hash_map unordered_map
 #endif
 
 #include <vector>

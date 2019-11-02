@@ -7,7 +7,7 @@ For more information, refer to the README files and the following pages:
 
 UPDATE 4th April 2015, by Hieu Hoang:
 
-Works with most versions of gcc, including really old versions. Doesn't work with recent versions of clang.
+Works with most versions of gcc and clang, including really old versions.
 
 Why not try using mgiza? It's multi-threaded and kept up to date to work with most compilers
    https://github.com/moses-smt/mgiza

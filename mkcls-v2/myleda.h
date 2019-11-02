@@ -27,7 +27,11 @@ USA.
 #define myleda_HEADER_defined
 #include <map>
 #include <set>
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
 #include <tr1/unordered_map>
+#else
+#include <unordered_map>
+#endif
 #include "myassert.h"
 #include "FixedArray.h"
 using namespace std;
@@ -110,7 +114,11 @@ public:
 };
 
 inline int Hash(int value) { return value; }
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
 #define MY_HASH_BASE std::tr1::unordered_map<A,B>
+#else
+#define MY_HASH_BASE unordered_map<A,B>
+#endif
 
 template<class A,class B>
 class leda_h_array : public MY_HASH_BASE

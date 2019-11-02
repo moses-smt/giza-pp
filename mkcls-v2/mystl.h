@@ -27,13 +27,19 @@ USA.
 #define MY_STL_H_DEFINED
 #include <string>
 #include <utility>
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
 #include <tr1/unordered_map>
+#else
+#include <unordered_map>
+#endif
 #include <cmath>
 
 using namespace std;
 
 namespace std {
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
  namespace tr1 {
+#endif
   template <typename T, typename V>
   struct hash<pair<T, V> > {
     static inline void hash_combine(std::size_t & seed, const T & v) {
@@ -48,7 +54,9 @@ namespace std {
       return h;
     }
   };
+#if __cplusplus < 201103L && !defined(_LIBCPP_VERSION)
  }
+#endif
 }
 
 #define over_string(a,i) for(unsigned int i=0;i<a.length();i++)

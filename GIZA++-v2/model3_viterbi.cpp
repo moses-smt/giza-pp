@@ -428,7 +428,6 @@ void model3::findAlignmentsNeighborhood(Vector<WordIndex>& es,
     WordIndex i,j,l,m,old_i,j1;
     Vector<WordIndex> A(fs.size(),0);
     Vector<WordIndex> Fert(es.size(),0);
-    time_t it_st;
     
     best_score = 0 ;
     l = es.size() - 1;
@@ -466,7 +465,6 @@ void model3::findAlignmentsNeighborhood(Vector<WordIndex>& es,
 	cerr << "Condition violated : 2 * Fert[0] <= m " << 2*Fert[0] <<"?"<<
 	  m << "\n";
       } // end of added code for debugging // Yaser
-      it_st = time(NULL) ;
       
       // Now find add all neighbors of the best alignmet to the  collection
       for (j = 1 ; j <= m ; j++){

@@ -704,12 +704,11 @@ int main(int argc, char* argv[])
   
   printGIZAPars(cout);
   int a=-1;
-  double errors=0.0;
   if( OldADBACKOFF!=0 )
     cerr << "WARNING: Parameter -adBackOff does not exist further; use CompactADTable instead.\n";
   if( MAX_SENTENCE_LENGTH > MAX_SENTENCE_LENGTH_ALLOWED )
     cerr << "ERROR: MAX_SENTENCE_LENGTH is too big " << MAX_SENTENCE_LENGTH << " > " << MAX_SENTENCE_LENGTH_ALLOWED << '\n';
-    errors=StartTraining(a);
+  StartTraining(a);
   fn = time(NULL);    // finish time
   cout << '\n' << "Entire Training took: " << difftime(fn, st1) << " seconds\n";
   cout << "Program Finished at: "<< ctime(&fn) << '\n';

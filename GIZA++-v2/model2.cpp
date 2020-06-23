@@ -61,7 +61,6 @@ int model2::em_with_tricks(int noIterations)
   string modelName="Model2",shortModelName="2";
   time_t it_st, st, it_fn, fn;
   string tfile, afile, number, alignfile, test_alignfile;
-  int pair_no = 0;
   bool dump_files = false ;
   ofstream of2 ;
   st = time(NULL) ;
@@ -69,7 +68,6 @@ int model2::em_with_tricks(int noIterations)
   cout << "\n==========================================================\n";
   cout << modelName << " Training Started at: " << ctime(&st) << " iter: " << noIterations << "\n";
   for(int it=1; it <= noIterations ; it++){
-    pair_no = 0;
     it_st = time(NULL) ;
     cout << endl << "-----------\n" << modelName << ": Iteration " << it << '\n';
     dump_files = (Model2_Dump_Freq != 0) && ((it % Model2_Dump_Freq) == 0) && !NODUMPS;

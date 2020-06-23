@@ -252,12 +252,11 @@ template<class T> class Vector
       (*this)[maxWritten]=x;
       return top();
     }
-    /*
   bool writeTo(ostream&out) const
     {
       out << "Vector ";
       out << size() << " ";
-      out << a << '\n';
+      //out << a << '\n';
       for(int iv=0;iv<=maxWritten;iv++)
 	{
 	  writeOb(out, (*this)[iv]);
@@ -265,8 +264,6 @@ template<class T> class Vector
 	}
       return 1;
     }
-    */
-    
   bool readFrom(istream&in)
     {
       string s;
@@ -283,7 +280,7 @@ template<class T> class Vector
 	}
       int biggest;
       in >> biggest;
-      in >> a;
+      //in >> a;
       resize(biggest);
       for(int iv=0;iv<size();iv++)
 	{

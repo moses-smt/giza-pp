@@ -194,7 +194,7 @@ public:
     {
       int count=0,count2=0;
       ifstream infile2(fn.c_str());
-      int e,f,olde=-1,oldf=-1;
+      int e,f,olde=-1;
       pair<unsigned int,CPPair> cp;
       vector< pair<unsigned int,CPPair> > cps;
       while(infile2>>e>>f)
@@ -216,7 +216,6 @@ public:
 	    }
 	  cps.push_back(cp);
 	  olde=e;
-	  oldf=f;
 	  count++;
 	}
       lexmat.resize(olde+1);

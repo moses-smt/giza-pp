@@ -92,8 +92,10 @@ class compare1
       if(deps&DEP_MODEL_F){if( a.F<b.F )return 1;if( b.F<a.F )return 0;}
       if(deps&DEP_MODEL_E){if( a.E<b.E )return 1;if( b.E<a.E )return 0;}
       //if(deps&DEP_MODEL_pj){if( a.prevj<b.prevj )return 1;if( b.prevj<a.prevj )return 0;}
-      if(a.vacancies1<b.vacancies1)return 1;if(b.vacancies1<a.vacancies1)return 0;
-      if(a.vacancies2<b.vacancies2)return 1;if(b.vacancies2<a.vacancies2)return 0;
+      if(a.vacancies1<b.vacancies1)return 1;
+      if(b.vacancies1<a.vacancies1)return 0;
+      if(a.vacancies2<b.vacancies2)return 1;
+      if(b.vacancies2<a.vacancies2)return 0;
       return 0;
     }
 };
@@ -111,8 +113,10 @@ class compareb1
       if(deps&DEP_MODELb_F){if( a.F<b.F )return 1;if( b.F<a.F )return 0;}
       if(deps&DEP_MODELb_E){if( a.E<b.E )return 1;if( b.E<a.E )return 0;}
       //if(deps&DEP_MODELb_pj){if( a.prevJ<b.prevJ )return 1;if( b.prevJ<a.prevJ )return 0;}
-      if(a.vacancies1<b.vacancies1)return 1;if(b.vacancies1<a.vacancies1)return 0;
-      if(a.vacancies2<b.vacancies2)return 1;if(b.vacancies2<a.vacancies2)return 0;
+      if(a.vacancies1<b.vacancies1)return 1;
+      if(b.vacancies1<a.vacancies1)return 0;
+      if(a.vacancies2<b.vacancies2)return 1;
+      if(b.vacancies2<a.vacancies2)return 0;
       return 0;
     }
 };

@@ -43,9 +43,10 @@ char *Get_File_Spec (){
     t = time(NULL);
     local = localtime(&t);
 
-    sprintf(time_stmp, "%04d-%02d-%02d.%02d%02d%02d.", 1900 +  local->tm_year,   
-   		(local->tm_mon + 1), local->tm_mday, local->tm_hour, 
-   	  	local->tm_min, local->tm_sec);
+    //    sprintf(time_stmp, "%04d-%02d-%02d.%02d%02d%02d.", 1900 +  local->tm_year,   
+    //		(local->tm_mon + 1), local->tm_mday, local->tm_hour, 
+    //  	local->tm_min, local->tm_sec);
+    strftime(time_stmp, 19, "%Y-%m-%d.%H%M%S.", local);
     user = getenv("USER");
 
   file_spec = (char *)malloc(sizeof(char) * 

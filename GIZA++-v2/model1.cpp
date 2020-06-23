@@ -69,14 +69,12 @@ int model1::em_with_tricks(int noIterations, /*Perplexity& perp, sentenceHandler
   string modelName="Model1",shortModelName="1";
   time_t st, it_st, fn, it_fn;
   string tfile, number, alignfile, test_alignfile;
-  int pair_no;
   bool dump_files = false ;
   st = time(NULL);
   sHandler1.rewind();
   cout << "==========================================================\n";
   cout << modelName << " Training Started at: "<< ctime(&st) << "\n";  
   for(int it = 1; it <= noIterations; it++){
-    pair_no = 0 ;
     it_st = time(NULL);
     cout <<  "-----------\n" << modelName << ": Iteration " << it << '\n';
     dump_files = (Model1_Dump_Freq != 0) &&  ((it % Model1_Dump_Freq)  == 0) && !NODUMPS ;

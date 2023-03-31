@@ -62,7 +62,7 @@ USA.
 typedef pair<WordIndex, WordIndex> wordPairIds;
 
 
-class hashpair : public unary_function< pair<WordIndex, WordIndex>, size_t >
+class hashpair
 {
 public:
   size_t operator() (const pair<WordIndex, WordIndex>& key) const

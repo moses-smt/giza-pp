@@ -126,8 +126,8 @@ void printUsage(int r)
     " mkcls -c80 -n10 -pin -Vout opt\n"
     " (generates 80 classes for the corpus 'in' and writes the classes in 'out')\n"
     "Literature: \n"
-    " Franz Josef Och: »Maximum-Likelihood-Schätzung von Wortkategorien mit Verfahren\n"
-    " der kombinatorischen Optimierung« Studienarbeit, Universität Erlangen-Nürnberg,\n"
+    " Franz Josef Och: Â»Maximum-Likelihood-SchÃ¤tzung von Wortkategorien mit Verfahren\n"
+    " der kombinatorischen OptimierungÂ« Studienarbeit, UniversitÃ¤t Erlangen-NÃ¼rnberg,\n"
     " Germany,1995. \n";
   exit(r);
 }

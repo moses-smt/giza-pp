@@ -32,7 +32,7 @@ double get_sum_of_partitions(int n, int source_pos, double alpha[_MAX_FERTILITY]
   int s, w, u, v;
   WordIndex k, k1, i ;
   WordIndex num_parts = 0  ;
-  int total_partitions_considered = 0;
+  //int total_partitions_considered = 0;
 
   int part[_MAX_FERTILITY], mult[_MAX_FERTILITY];
 
@@ -44,7 +44,7 @@ double get_sum_of_partitions(int n, int source_pos, double alpha[_MAX_FERTILITY]
   
   //printf("Entering get sum of partitions\n");
   while(! done){
-    total_partitions_considered++;
+    //total_partitions_considered++;
     if (init){
       part[1] = n ;
       mult[1] = 1 ;

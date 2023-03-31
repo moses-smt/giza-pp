@@ -348,8 +348,8 @@ bool readNextSent(istream&is,map< pair<int,int>,char >&s,int&number)
 	cerr << "ERROR: readNextSent: DIFFERENT NUMBERS: " << number << " " << n << '\n';
 	return 0;
       }
-  int nS,nP,nO;
-  nS=nP=nO=0;
+  //int nP,nO;
+  //nS=nP=nO=0;
   while( is >> x )
     {
       if( x=="SENT:" )
@@ -360,9 +360,9 @@ bool readNextSent(istream&is,map< pair<int,int>,char >&s,int&number)
       if( i==s.end()||i->second=='P' )
 	s[pair<int,int>(n1,n2)]=x[0];
       massert(x[0]=='S'||x[0]=='P');
-      nS+= (x[0]=='S');
-      nP+= (x[0]=='P');
-      nO+= (!(x[0]=='S'||x[0]=='P'));
+      //nS+= (x[0]=='S');
+      //nP+= (x[0]=='P');
+      //nO+= (!(x[0]=='S'||x[0]=='P'));
     }
   return 1;
 }

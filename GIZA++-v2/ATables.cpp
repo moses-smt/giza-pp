@@ -43,7 +43,6 @@ void amodel<VALTYPE>::printTable(const char *filename) const
     cout << "Dumping alignment table (a) to file:" << filename <<'\n';
 
   ofstream of(filename);
-  double ssum=0.0;
   for(WordIndex l=0; l < MaxSentLength; l++)
     for(WordIndex m=0;m<MaxSentLength;m++)
       {
@@ -64,7 +63,6 @@ void amodel<VALTYPE>::printTable(const char *filename) const
 		      sum+=x;
 		    }
 		}
-	      ssum+=sum;
 	    }
 	else
 	  for(WordIndex i=0;i<=L;i++)
@@ -80,7 +78,6 @@ void amodel<VALTYPE>::printTable(const char *filename) const
 		      sum+=x;
 		    }
 		}
-	      ssum+=sum;
 	    }
       }
 }

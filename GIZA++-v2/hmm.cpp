@@ -251,7 +251,8 @@ HMMNetwork *hmm::makeHMMNetwork(const Vector<WordIndex>& es,const Vector<WordInd
   massert( net->alphainit.size()==I );massert( net->betainit.size()==I );
   normalize_if_possible(conv<double>(net->alphainit.begin()),conv<double>(net->alphainit.end()));
   normalize_if_possible(conv<double>(net->betainit.begin()),conv<double>(net->betainit.end()));
-  transform(net->betainit.begin(),net->betainit.end(),net->betainit.begin(),bind1st(multiplies<double>(),2*l));
+  transform(net->betainit.begin(),net->betainit.end(),net->betainit.begin(),
+	    [l](double x){return x*2*l;});
   return net;
 }
 extern float MINCOUNTINCREASE;
@@ -263,7 +264,7 @@ void hmm::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
 {
   WordIndex i, j, l, m ;
   double cross_entropy;
-  int pair_no=0 ;
+  //int pair_no=0 ;
   perp.clear();
   viterbi_perp.clear();
   ofstream of2;
@@ -390,7 +391,7 @@ void hmm::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
     if (dump_alignment||(FEWDUMPS&&sent.getSentenceNo()<1000) )
       printAlignToFile(es, fs, Elist.getVocabList(), Flist.getVocabList(), of2, viterbi_alignment, sent.getSentenceNo(), viterbi_score);
     addAL(viterbi_alignment,sent.getSentenceNo(),l);    
-    pair_no++;
+    //pair_no++;
   } /* of while */
   sHandler1.rewind();
   perp.record("HMM");

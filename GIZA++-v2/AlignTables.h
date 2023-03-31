@@ -45,7 +45,7 @@ USA.
    an alignment (defined as a vector of integers) into a hash key
  ----------------------------------------------------------------------------*/
 
-class hashmyalignment : public unary_function< Vector<WordIndex>, size_t >
+class hashmyalignment
 {
 public:
   size_t operator() (const Vector<WordIndex>& key) const

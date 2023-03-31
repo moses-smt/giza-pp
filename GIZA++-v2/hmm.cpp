@@ -251,7 +251,8 @@ HMMNetwork *hmm::makeHMMNetwork(const Vector<WordIndex>& es,const Vector<WordInd
   massert( net->alphainit.size()==I );massert( net->betainit.size()==I );
   normalize_if_possible(conv<double>(net->alphainit.begin()),conv<double>(net->alphainit.end()));
   normalize_if_possible(conv<double>(net->betainit.begin()),conv<double>(net->betainit.end()));
-  transform(net->betainit.begin(),net->betainit.end(),net->betainit.begin(),bind1st(multiplies<double>(),2*l));
+  transform(net->betainit.begin(),net->betainit.end(),net->betainit.begin(),
+	    [l](double x){return x*2*l;});
   return net;
 }
 extern float MINCOUNTINCREASE;

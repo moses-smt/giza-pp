@@ -137,8 +137,8 @@ inline void NWG::addFreq(int g,FreqType n)
 
 struct KategProblemChange : public ProblemChange
 {
-  void *operator new(size_t size);
-  void operator delete(void *ptr,size_t size);
+  //void *operator new(size_t size);
+  //void operator delete(void *ptr,size_t size);
 
   int word;     
   int toKat;    

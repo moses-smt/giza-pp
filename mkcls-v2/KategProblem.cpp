@@ -482,7 +482,7 @@ int KategProblem::_change(ProblemChange **p)
     {
     case K_RAN: 
       kat=randomInt(katFreq.nKats-2)+2;
-      
+      /* fall through */
     case K_DET: 
       
       
@@ -930,7 +930,7 @@ void KategProblem::putWord(int word,int toKat)
   
 
 
-
+/*
 
 static KategProblemChange theOneKategProblemChange; 
 static int anzKategProblemChange=0;
@@ -958,7 +958,7 @@ void KategProblemChange::operator delete(void *ptr,size_t
     free(ptr);
 }
 
-
+*/
 
   
   

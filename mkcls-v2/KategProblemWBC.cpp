@@ -231,17 +231,18 @@ short KategProblemWBC::testFull(int doIt)
   int symmetrisch=1;
   for(i=0;i<nWords;i++)
     {
-		int j;
       massert(before[i].size()==beforeFilled[i]);
       massert( after[i].size()== afterFilled[i]);
+      /*
       FreqType sum=0;
-      for(j=0;j<after[i].size();j++)
+      for(int j=0;j<after[i].size();j++)
 	sum+=after[i][j].n;
       massert( sum==_n1[i] );
       sum=0;
-      for(j=0;j<before[i].size();j++)
+      for(int j=0;j<before[i].size();j++)
 	sum+=before[i][j].n;
       massert(sum==_n2[i]);
+      */
       if(_n1[i]!=_n2[i])
 	{
 	  symmetrisch=0;
@@ -302,14 +303,15 @@ Array<Word> &KategProblemWBC::getSortedList(int steigend)
 FreqType KategProblemWBC::numberOfWords()
   
 {
-  FreqType n1=0,n2=0;
+  FreqType n1=0;
+  //FreqType n2=0;
   for(int i=0;i<_n1.size();i++)
     {
       n1+=_n1[i];
-      n2+=_n2[i];
+      //n2+=_n2[i];
     }
   #ifndef FREQTYPE_DOUBLE
-  massert(n1==n2);
+  //massert(n1==n2);
   #endif
   return n1;
 }

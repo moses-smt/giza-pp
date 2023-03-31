@@ -611,7 +611,7 @@ void model3::viterbi_loop_with_tricks(Perplexity& perp, Perplexity& viterbiPerp,
 		    als.push_back( Als(s,-j1,-j2,msc.cswap(j1,j2)*normalized_ascore));
 	    }
 	  sort(als.begin(),als.end());
-	  double sum=0,sum2=0;
+	  double sum=0;
 	  for(unsigned int i=0;i<als.size();++i)
 	    sum+=als[i].v;
 	  for(unsigned int i=0;i<min((unsigned int)als.size(),(unsigned int)PrintN);++i)
@@ -627,7 +627,6 @@ void model3::viterbi_loop_with_tricks(Perplexity& perp, Perplexity& viterbiPerp,
 	      if( of3&&i<PrintN )
 		printAlignToFile(es, fs, Elist.getVocabList(), Flist.getVocabList(),*of3,x.getAlignment(), pair_no, 
 				 als[i].v/sum*count);
-	      sum2+=als[i].v;
 	      if( writeNBestErrorsFile )
 		{
 		  if( pair_no<int(ReferenceAlignment.size()) )

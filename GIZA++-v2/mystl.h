@@ -21,7 +21,7 @@ using namespace _STL;
 
 #if __GNUC__==2
 #include <hash_map>
-#elsif __GNUC__==3
+#elif __GNUC__==3
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
 #else

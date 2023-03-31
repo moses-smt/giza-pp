@@ -46,7 +46,7 @@ int main(int argc,char **argv)
   map<string,string>voc1,voc2;
   readVoc(v1,voc1);
   readVoc(v2,voc2);
-  int source=0,target=0;
+  //int source=0,target=0;
   string line1,line2,line3;
   int printed=0;
   while(getline(t,line1)&&getline(t,line2)&&getline(t,line3))
@@ -72,7 +72,7 @@ int main(int argc,char **argv)
 	    }
 	  else
 	    out1 << voc1[l1[p]] << ' ';
-	  source++;
+	  //source++;
 	}
       for(unsigned int p=0;p<l2.size();p++)
 	{
@@ -83,7 +83,7 @@ int main(int argc,char **argv)
 	      out2 <<l2[p]<<' ';
 	    }
 	  out2 << voc2[l2[p]] << ' ';
-	  target++;
+	  //target++;
 	}
       out1<<'\n';
       out2<<'\n';

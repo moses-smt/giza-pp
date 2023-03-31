@@ -36,7 +36,7 @@ model2::model2(model1& m,amodel<PROB>&_aTable,amodel<COUNT>&_aCountTable):
 
 void model2::initialize_table_uniformly(sentenceHandler& sHandler1){
   // initialize the aTable uniformly (run this before running em_with_tricks)
-  int n=0;
+  //int n=0;
   sentPair sent ;
   sHandler1.rewind();
    while(sHandler1.getNextSentence(sent)){
@@ -44,7 +44,7 @@ void model2::initialize_table_uniformly(sentenceHandler& sHandler1){
     Vector<WordIndex>& fs = sent.fSent;
     WordIndex l = es.size() - 1;
     WordIndex m = fs.size() - 1;
-    n++;
+    //n++;
     if(1<=m&&aTable.getValue(l,m,l,m)<=PROB_SMOOTH)
       {
 	PROB uniform_val = 1.0 / (l+1) ;
@@ -143,7 +143,7 @@ void model2::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
   massert( aCountTable.is_distortion==0 );
   WordIndex i, j, l, m ;
   double cross_entropy;
-  int pair_no=0 ;
+  //int pair_no=0 ;
   perp.clear();
   viterbi_perp.clear();
   ofstream of2;
@@ -216,7 +216,7 @@ void model2::em_loop(Perplexity& perp, sentenceHandler& sHandler1,
     if (dump_alignment||(FEWDUMPS&&sent.sentenceNo<1000) )
       printAlignToFile(es, fs, Elist.getVocabList(), Flist.getVocabList(), of2, viterbi_alignment, sent.sentenceNo, viterbi_score);
     addAL(viterbi_alignment,sent.sentenceNo,l);
-    pair_no++;
+    //pair_no++;
   } /* of while */
   sHandler1.rewind();
   perp.record("Model2");

@@ -1,11 +1,7 @@
 This package contains the GIZA++ toolkit and the mkcls tool, originally
 written by F.J. Och and several other authors.
 
-For more information, refer to the README files and the following pages:
-  http://www.fjoch.com/mkcls.html
-  http://www.fjoch.com/GIZA++.html
-
-UPDATE 4th April 2015, by Hieu Hoang:
+UPDATE 4th April 2015, 18th Nov 2025, by Hieu Hoang:
 
 Works with most versions of gcc and clang, including really old versions.
 

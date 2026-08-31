@@ -441,8 +441,8 @@ class d4model
 	      str=linestr[0];
 	      sum=atof(linestr[1].c_str());
 	    }
-	  if( str!="SUM:" )
-	    cerr << "ERROR: should read SUM but read " << str << endl;
+	  if( file && str!="SUM:" )
+	    cerr << "ERROR: should read SUM but read " << line << endl;
 	  do
 	    {
 	      int value;

@@ -84,13 +84,13 @@ class nmodel
 	  sum2+=sum;
 	  if( sum )
 	    {
-	      double average=0.0;
+	      //double average=0.0;
 	      //cerr << "l: " << i << " " << sum << " ";
 	      for(int k=0;k<h2;k++)
 		{
 		  counts(i,k)/=sum;
 		  //cerr << counts(i,k) << ' ';
-		  average+=k*counts(i,k);
+		  //average+=k*counts(i,k);
 		}
 	      //cerr << "avg: " << average << endl;
 	      //cerr << '\n';

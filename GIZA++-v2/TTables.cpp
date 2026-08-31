@@ -258,7 +258,7 @@ void tmodel<COUNT, PROB>::normalizeTable(const vcbList&engl, const vcbList&frenc
       }
   typename hash_map<wordPairIds, CPPair, hashpair, equal_to<wordPairIds> >::iterator j, k;
   PROB p ;
-  int nParams=0;
+  //int nParams=0;
   for(j = ef.begin(); j != ef.end(); ){
     k = j;
     k++ ;
@@ -278,7 +278,7 @@ void tmodel<COUNT, PROB>::normalizeTable(const vcbList&engl, const vcbList&frenc
 	    ((*j).second).prob = p ;
 	    ((*j).second).count = 0 ;
 	  }
-	nParams++;
+	//nParams++;
       }
     else {
       erase(((*j).first).first, ((*j).first).second);

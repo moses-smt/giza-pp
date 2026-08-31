@@ -53,21 +53,21 @@ void amodel<VALTYPE>::printTable(const char *filename) const
 	if( is_distortion==0 )
 	  for(WordIndex j=1;j<=M; j++)
 	    {
-	      double sum=0.0;
+	      //double sum=0.0;
 	      for(WordIndex i=0;i<=L; i++)
 		{
 		  VALTYPE x=getValue(i, j, L, M); 
 		  if( x>PROB_SMOOTH )
 		    {
 		      of << i << ' ' << j << ' ' << L << ' ' << M << ' ' << x << '\n';
-		      sum+=x;
+		      //sum+=x;
 		    }
 		}
 	    }
 	else
 	  for(WordIndex i=0;i<=L;i++)
 	    {
-	      double sum=0.0;
+	      //double sum=0.0;
 	      for(WordIndex j=1;j<=M;j++)
 		
 		{
@@ -75,7 +75,7 @@ void amodel<VALTYPE>::printTable(const char *filename) const
 		  if( x>PROB_SMOOTH )
 		    {
 		      of << j << ' ' << i << ' ' << L << ' ' << M << ' ' << x << '\n';
-		      sum+=x;
+		      //sum+=x;
 		    }
 		}
 	    }

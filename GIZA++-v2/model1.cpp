@@ -161,9 +161,9 @@ void model1::em_loop(int it,Perplexity& perp, sentenceHandler& sHandler1, bool s
     Vector<WordIndex> viterbi_alignment(fs.size());
     double viterbi_score = 1 ;
 
-    bool eindict[l + 1];
-    bool findict[m + 1];
-    bool indict[m + 1][l + 1];
+    Vector<bool> eindict(l + 1);
+    Vector<bool> findict(m + 1);
+    Vector<Vector <bool>> indict(m + 1, Vector<bool>(l + 1));
     if(it == 1 && useDict){
       for(unsigned int dummy = 0; dummy <= l; dummy++) eindict[dummy] = false;
       for(unsigned int dummy = 0; dummy <= m; dummy++){

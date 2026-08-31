@@ -32,7 +32,7 @@ template <class VALTYPE>
 void nmodel<VALTYPE>::printNTable(int noEW, const char* filename, 
 				  const Vector<WordEntry>& evlist, 
 				  bool actual) const
-     // prints the fertility table but with actual sourcce words (not their id)
+     // prints the fertility table but with actual source words (not their id)
 {
   cerr << "Dumping nTable to: " << filename <<  '\n';  
   ofstream of(filename);
@@ -77,13 +77,14 @@ void nmodel<VALTYPE>::readNTable(const char *filename){
     inf >> ws >> tok;
     if (tok > MAX_VOCAB_SIZE){
       cerr << "NTables:readNTable(): unrecognized token id: " << tok
-    <<'\n';
-    exit(-1);
-  }
+	   <<'\n';
+      exit(-1);
+    }
     for(i = 0; i < MAX_FERTILITY; i++){
       inf >> ws >> prob;
       getRef(tok, i)=prob;
     }
+    inf >> ws;	// this makes sure we reach eof after reading last prob
   }
   cerr << "Read " << nFert << " entries in fertility table.\n";
   inf.close();
